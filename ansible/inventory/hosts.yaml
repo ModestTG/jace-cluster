@@ -1,0 +1,22 @@
+---
+kubernetes:
+  children:
+    master:
+      hosts:
+        jace-master-0:
+          ansible_user: eweishaar
+          ansible_host: 10.0.20.10
+        jace-master-1:
+          ansible_user: eweishaar
+          ansible_host: 10.0.20.11
+        jace-master-2:
+          ansible_user: eweishaar
+          ansible_host: 10.0.20.12
+    worker:
+      hosts:
+        jace-worker-0:
+          ansible_user: eweishaar
+          ansible_host: 10.0.20.13
+        jace-worker-1:
+          ansible_user: eweishaar
+          ansible_host: 10.0.20.14
