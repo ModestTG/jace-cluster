@@ -5,8 +5,10 @@ resources:
   - ./bitnami.yaml
   - ./bjw-s.yaml
   - ./cilium.yaml
+  - ./cloudnative-pg.yaml
   - ./coredns.yaml
   - ./csi-driver-nfs.yaml
+  - ./emberstack-charts.yaml
   - ./external-dns.yaml
   - ./grafana.yaml
   - ./hajimari.yaml
@@ -14,6 +16,7 @@ resources:
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./kubernetes-dashboard.yaml
+  - ./longhorn.yaml
   - ./metrics-server.yaml
   - ./prometheus-community.yaml
   - ./stakater.yaml
