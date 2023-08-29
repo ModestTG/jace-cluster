@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vaultwarden
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: vaultwarden/server
+      tag: 1.29.1-alpine
+    env:
+      TZ: "${TIMEZONE}"
+      DATA_FOLDER: "config"
+      DOMAIN: https://vault.${SECRET_DOMAIN}
+      SIGNUPS_ALLOWED: false
+      WEBSOCKET_ENABLED: true
+      WEBSOCKET_ADDRESS: 0.0.0.0
+      WEBSOCKET_PORT: 3012
+      SHOW_PASSWORD_HINT: false
+      # SMTP_FROM_NAME: vaultwarden
+      # SMTP_HOST: email-smtp.eu-west-1.amazonaws.com
+      # SMTP_SSL: true
+      # SMTP_PORT: 25
+    envFrom:
+      - secretRef:
+          name: vaultwarden-secret
+    service:
+      main:
+        ports:
+          http:
+            port: &port 80
+          websocket:
+            enabled: true
+            port: &websocket-port 3012
+    podAnnotations:
+      secret.reloader.stakater.com/reload: "vaultwarden"
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "shield-key"
+        enabled: true
+        ingressClassName: external
+        hosts:
+          - host: &host "vault.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: *port
+              - path: /notifications/hub/negotiate
+                pathType: Prefix
+                service:
+                  port: *port
+              - path: /notifications/hub
+                pathType: Prefix
+                service:
+                  port: *websocket-port
+        tls:
+          - hosts:
+            - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: vaultwarden-config
