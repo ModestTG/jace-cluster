@@ -34,10 +34,10 @@ spec:
       serverName: *previous-cluster
       s3Credentials:
         accessKeyId:
-          name: longhorn-backup-secret
+          name: cluster-secrets-user
           key: AWS_ACCESS_KEY_ID
         secretAccessKey:
-          name: longhorn-backup-secret
+          name: cluster-secrets-user
           key: AWS_SECRET_ACCESS_KEY
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
@@ -50,8 +50,8 @@ spec:
         endpointURL: http://10.0.0.8:9000
         s3Credentials:
           accessKeyId:
-            name: longhorn-backup-secret
+            name: cluster-secrets-user
             key: AWS_ACCESS_KEY_ID
           secretAccessKey:
-            name: longhorn-backup-secret
+            name: cluster-secrets-user
             key: AWS_SECRET_ACCESS_KEY
