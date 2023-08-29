@@ -47,5 +47,5 @@ spec:
           compression: bzip2
           maxParallel: 8
         destinationPath: *dest-path
-        endpointURL: *endpiont-url
+        endpointURL: *endpoint-url
         s3Credentials: *s3-creds
