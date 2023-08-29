@@ -7,8 +7,6 @@ metadata:
   namespace: flux-system
 spec:
   path: ./kubernetes/apps/database/cloudnative-pg/app
-  dependsOn:
-    - name: storage-longhorn-recurring-jobs
   prune: true
   sourceRef:
     kind: GitRepository
