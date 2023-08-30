@@ -37,8 +37,8 @@ spec:
     service:
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/loadBalancerIPs: 10.0.20.202
-        # io.cilium/lb-ipam-ips: 10.0.20.202
+        # metallb.universe.tf/loadBalancerIPs: 10.0.20.202
+        io.cilium/lb-ipam-ips: 10.0.20.203
       externalTrafficPolicy: Cluster
     ingress:
       dashboard:
@@ -46,7 +46,7 @@ spec:
         annotations:
           hajimari.io/appName: 'EMQX'
           hajimari.io/icon: simple-icons:eclipsemosquitto
-        ingressClassName: nginx
+        ingressClassName: internal
         path: /
         pathType: Prefix
         hosts:
