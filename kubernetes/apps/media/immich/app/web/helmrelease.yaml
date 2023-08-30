@@ -52,9 +52,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/appName: "Immich"
           hajimari.io/icon: heroicons:photo
           nginx.ingress.kubernetes.io/configuration-snippet: |
