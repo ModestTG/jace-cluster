@@ -31,7 +31,7 @@ spec:
         maxParallel: 8
       destinationPath: &dest-path s3://postgresql-data/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: postgres-v3 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: postgres-v2 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: longhorn-backup-secret
