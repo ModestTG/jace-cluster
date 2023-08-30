@@ -8,7 +8,6 @@ metadata:
 spec:
   dependsOn:
     - name: database-cloudnative-pg-cluster
-    - name: automation-node-red
   path: ./kubernetes/apps/automation/home-assistant/app
   prune: true
   sourceRef:
