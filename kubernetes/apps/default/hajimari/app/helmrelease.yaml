@@ -26,20 +26,36 @@ spec:
     keepHistory: false
   values:
     hajimari:
-      title: Apps
-      darkTheme: espresso
+      title: Heliod Cluster
+      darkTheme: lime
       alwaysTargetBlank: true
       showGreeting: false
-      showAppGroups: false
-      showAppStatus: false
-      showBookmarkGroups: false
+      showAppGroups: true
+      showAppStatus: true
+      showBookmarkGroups: true
       showGlobalBookmarks: false
       showAppUrls: false
       defaultEnable: true
       namespaceSelector:
         matchNames:
+          - automation
           - default
+          - flux-system
+          - media
           - monitoring
+          - storage
+      globalBookmarks:
+        - group: Github
+          bookmarks:
+            - name: Jace Cluster
+              url: "https://github.com/ModestTG/jace-cluster"
+              icon: simple-icons:github
+            - name: Heliod Cluster
+              url: "https://github.com/ModestTG/heliod-cluster"
+              icon: simple-icons:github
+            - name: Flux Cluster Template
+              url: "https://github.com/onedr0p/flux-cluster-template"
+              icon: simple-icons:github
     ingress:
       main:
         enabled: true
