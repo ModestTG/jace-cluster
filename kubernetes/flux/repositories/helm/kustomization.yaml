@@ -9,6 +9,7 @@ resources:
   - ./coredns.yaml
   - ./csi-driver-nfs.yaml
   - ./emberstack-charts.yaml
+  - ./emqx.yaml
   - ./external-dns.yaml
   - ./grafana.yaml
   - ./hajimari.yaml
