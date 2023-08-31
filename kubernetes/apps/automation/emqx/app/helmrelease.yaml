@@ -56,10 +56,10 @@ spec:
               - *host1
     metrics:
       enabled: true
-    persistence:
-      enabled: true
-      storageClassName: longhorn-apps
-      size: 250Mi
+    # persistence:
+    #   enabled: true
+    #   storageClassName: longhorn-apps
+    #   size: 250Mi
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:

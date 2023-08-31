@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
   - ./node-red/ks.yaml
   - ./home-assistant/ks.yaml
-  # - ./emqx/ks.yaml
+  - ./emqx/ks.yaml
