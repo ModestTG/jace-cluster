@@ -43,10 +43,10 @@ spec:
       TZ: "${TIMEZONE}"
     service:
       main:
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          io.cilium/lb-ipam-ips: ${SECRET_JELLYFIN_ADDR}
+        # type: LoadBalancer
+        # externalTrafficPolicy: Cluster
+        # annotations:
+        #   io.cilium/lb-ipam-ips: ${SECRET_JELLYFIN_ADDR}
         ports:
           http:
             port: &port 8096
