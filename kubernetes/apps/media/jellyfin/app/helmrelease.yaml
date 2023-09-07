@@ -38,6 +38,7 @@ spec:
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
         - 1001
+        - 1002
     env:
       TZ: "${TIMEZONE}"
     service:
