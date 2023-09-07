@@ -32,7 +32,10 @@ spec:
     worker:
       config:
         core:
-          sources: ["custom", "pci", "usb"]
+          labelSources:
+            - "custom"
+            - "pci"
+            - "usb"
         sources:
           usb:
             deviceClassWhitelist: ["02", "03", "0e", "ef", "fe", "ff"]
