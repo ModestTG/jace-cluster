@@ -24,7 +24,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/filebrowser
-      tag: v2.24.2
+      tag: v2.25.0
     env:
       TZ: "${TIMEZONE}"
     service:
