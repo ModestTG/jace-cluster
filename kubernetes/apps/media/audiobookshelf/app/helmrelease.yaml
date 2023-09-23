@@ -31,8 +31,8 @@ spec:
       tag: 2.4.3
     env:
       TZ: ${TIMEZONE}
-      AUDIOBOOKSHELF_UID: 1001
-      AUDIOBOOKSHELF_GID: 1001
+      AUDIOBOOKSHELF_UID: 1000
+      AUDIOBOOKSHELF_GID: 1000
       CONFIG_PATH: /config
       METADATA_PATH: /config/metadata
     service:
@@ -77,8 +77,8 @@ spec:
         mountPath: /.npm
         type: emptyDir
     podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
       fsGroupChangePolicy: OnRootMismatch
 
