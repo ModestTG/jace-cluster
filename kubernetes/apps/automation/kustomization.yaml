@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespace.yaml
-  - ./node-red/ks.yaml
-  - ./home-assistant/ks.yaml
+  - ./apprise/ks.yaml
   - ./emqx/ks.yaml
+  - ./home-assistant/ks.yaml
+  - ./node-red/ks.yaml
