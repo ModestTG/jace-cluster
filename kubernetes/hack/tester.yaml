@@ -7,8 +7,8 @@ metadata:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ubuntu
-  namespace: default
+  name: test-ubuntu-pod
+  namespace: automation
   labels:
     app: ubuntu
 spec:
@@ -24,4 +24,4 @@ spec:
   volumes:
     - name: volume
       persistentVolumeClaim:
-        claimName: nextcloud-config
+        claimName: apprise-data
