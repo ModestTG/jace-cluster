@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: &secret prowlarr-secret
+    image:
+      repository: ghcr.io/onedr0p/prowlarr-develop
+      tag: 1.9.1.3981@sha256:b4ee8e5a7b49d370929a2b829a1c7f056fcebd17803eb7351c9109d17ddb0287
+    env:
+      PROWLARR__INSTANCE_NAME: prowlarr
+      PROWLARR__LOG_LEVEL: info
+    envFrom: *envFrom
+    service:
+      main:
+        ports:
+          http:
+            port: 9696
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          hajimari.io/icon: mdi:movie-search
+        hosts:
+          - host: &host prowlarr.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        enabled: true
+        existingClaim: prowlarr-config
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *secret
+    resources:
+      requests:
+        cpu: 100m
+        memory: 600Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
