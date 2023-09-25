@@ -70,5 +70,5 @@ spec:
         enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
-        hostPath: /mnt/PlexPool
+        path: /mnt/PlexPool
         mountPath: /media
