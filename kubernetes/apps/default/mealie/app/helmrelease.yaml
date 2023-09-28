@@ -31,7 +31,6 @@ spec:
       tag: frontend-v1.0.0beta-5
     env:
       TZ: "${TIMEZONE}"
-      API_URL: "http://mealie-api.default.svc.cluster.local:9000"
       # Light Mode Config
       THEME_LIGHT_PRIMARY: "#005AE6"
       THEME_LIGHT_ACCENT: "#FEBF00"
