@@ -33,12 +33,12 @@ spec:
       tag: 10.8.11@sha256:02904ff44d66c9a549c1dbf7e5bb03f6185272786f871d5718da22ca9a0e600e
     podSecurityContext:
       runAsUser: 1000
-      runAsGroup: 1001
-      fsGroup: 1001
+      runAsGroup: 1000
+      fsGroup: 1000
       fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 1001
-        - 1002
+      # supplementalGroups:
+      #   - 1001
+      #   - 1002
     env:
       TZ: "${TIMEZONE}"
     service:
