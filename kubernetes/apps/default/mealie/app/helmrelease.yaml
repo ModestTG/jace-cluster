@@ -61,7 +61,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: internal
         annotations:
           hajimari.io/icon: mdi:food
         hosts:
@@ -72,68 +72,95 @@ spec:
         tls:
           - hosts:
               - *host
-
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: mealie-api
-  namespace: default
-spec:
-  interval: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 1.5.1
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  maxHistory: 2
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  values:
-    image:
-      repository: docker.io/hkotel/mealie
-      tag: api-v1.0.0beta-5
-    env:
-      TZ: "${TIMEZONE}"
-      PUID: 1000
-      PGID: 1000
-      TOKEN_TIME: 720 # 24 hours * 30 days
-      BASE_URL: "https://recipes.${SECRET_DOMAIN}"
-      AUTO_BACKUP_ENABLED: true
-      ALLOW_SIGNUP: false
-    service:
-      main:
+    additionalContainers:
+      api:
+        name: mealie-api
+        image: docker.io/hkotel/mealie:api-v1.0.0beta-5
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: API_PORT
+            value: "9000"
+          - name: TZ
+            value: ${TIMEZONE}
+          - name: PUID
+            value: 1000
+          - name: PGID
+            value: 1000
+          - name: TOKEN_TIME
+            value: 720 # 24 hours * 30 days
+          - name: BASE_URL
+            value: "https://recipes.${SECRET_DOMAIN}"
+          - name: AUTO_BACKUP_ENABLED
+            value: true
+          - name: ALLOW_SIGNUP
+            value: false
         ports:
-          http:
-            port: &port 9000
-    # https://github.com/mealie-recipes/mealie/blob/095edef95e81f0f51fa5b9a0b4b3ced769878a82/mealie/scripts/healthcheck.py
-    probes:
-      liveness: &probe
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /api/app/about
-            port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probe
-    persistence:
-      config:
-        enabled: true
-        mountPath: /app/data
-        existingClaim: mealie-config
-        subPath: mealie
+          - name: api
+            containerPort: 9000
+        volumeMounts:
+        - name: config # name of persistence entry above
+          mountPath: /app/data/
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: mealie-api
+#   namespace: default
+# spec:
+#   interval: 15m
+#   chart:
+#     spec:
+#       chart: app-template
+#       version: 1.5.1
+#       sourceRef:
+#         kind: HelmRepository
+#         name: bjw-s
+#         namespace: flux-system
+#   maxHistory: 2
+#   install:
+#     createNamespace: true
+#     remediation:
+#       retries: 3
+#   upgrade:
+#     cleanupOnFail: true
+#     remediation:
+#       retries: 3
+#   uninstall:
+#     keepHistory: false
+#   values:
+#     image:
+#       repository: docker.io/hkotel/mealie
+#       tag: api-v1.0.0beta-5
+#     env:
+#       TZ: "${TIMEZONE}"
+#       PUID: 1000
+#       PGID: 1000
+#       TOKEN_TIME: 720 # 24 hours * 30 days
+#       BASE_URL: "https://recipes.${SECRET_DOMAIN}"
+#       AUTO_BACKUP_ENABLED: true
+#       ALLOW_SIGNUP: false
+#     service:
+#       main:
+#         ports:
+#           http:
+#             port: &port 9000
+#     # https://github.com/mealie-recipes/mealie/blob/095edef95e81f0f51fa5b9a0b4b3ced769878a82/mealie/scripts/healthcheck.py
+#     probes:
+#       liveness: &probe
+#         enabled: true
+#         custom: true
+#         spec:
+#           httpGet:
+#             path: /api/app/about
+#             port: *port
+#           initialDelaySeconds: 0
+#           periodSeconds: 10
+#           timeoutSeconds: 1
+#           failureThreshold: 3
+#       readiness: *probe
+#     persistence:
+#       config:
+#         enabled: true
+#         mountPath: /app/data
+#         existingClaim: mealie-config
+#         subPath: mealie
