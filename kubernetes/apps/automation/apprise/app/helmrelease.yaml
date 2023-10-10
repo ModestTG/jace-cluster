@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,12 +25,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      # https://hub.docker.com/r/caronc/apprise
-      repository: docker.io/caronc/apprise
-      tag: v0.9.4
-    env:
-      TZ: "${TIMEZONE}"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              # https://hub.docker.com/r/caronc/apprise
+              repository: docker.io/caronc/apprise
+              tag: v0.9.4
+            env:
+              TZ: "${TIMEZONE}"
     service:
       main:
         ports:
@@ -39,12 +43,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /config
         existingClaim: apprise-data
+        globalMounts:
+          - path: /config
     ingress:
       main:
-        enabled: true
-        ingressClassName: internal
+        className: internal
         annotations:
           hajimari.io/icon: bell-cog
         hosts:
