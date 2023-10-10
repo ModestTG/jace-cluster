@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -10,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,34 +26,77 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: home-assistant-secret
-    controller:
-      type: statefulset
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.9.3@sha256:d6e4c153f71b544e0e216706beda9511e106d535f96a0fce75500efa7cbee01d
-    env:
-      TZ: "${TIMEZONE}"
-      POSTGRES_HOST: postgres-rw.database.svc.cluster.local
-      POSTGRES_DB: home_assistant
-    envFrom: *envFrom
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              mountPath: /config
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn-apps
+        initContainers:
+          01-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: home-assistant-secret
+          containers:
+            main:
+              image:
+                repository: ghcr.io/onedr0p/home-assistant
+                tag: 2023.9.3@sha256:d6e4c153f71b544e0e216706beda9511e106d535f96a0fce75500efa7cbee01d
+                pullPolicy: IfNotPresent
+              env:
+                TZ: "${TIMEZONE}"
+                POSTGRES_HOST: postgres-rw.database.svc.cluster.local
+                POSTGRES_DB: home_assistant
+              envFrom: *envFrom
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+            codeserver:
+              image:
+                repository: ghcr.io/coder/code-server
+                tag: 4.17.1
+                pullPolicy: IfNotPresent
+              env:
+                TZ: "${TIMEZONE}"
+              args:
+                - --auth
+                - "none"
+                - --user-data-dir
+                - "/config/.vscode"
+                - --extensions-dir
+                - "/config/.vscode"
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
     service:
       main:
         ports:
           http:
             port: 8123
+          codeserver:
+            port: 8080
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: mdi:home-assistant
@@ -62,31 +104,31 @@ spec:
           - host: &host "hass.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - *host
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: longhorn-apps
-    resources:
-      requests:
-        cpu: 10m
-        memory: 100Mi
-      limits:
-        memory: 750Mi
+            - *host
+      codeserver:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/appName: "Hass Config"
+          hajimari.io/icon: cib:visual-studio-code
+          hosts:
+            - host: &host "hass-code.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+                  service:
+                    name: main
+                    port: codeserver
+          tls:
+            - hosts:
+                - *host
+    defaultPodOptions:
+      podSecurityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
