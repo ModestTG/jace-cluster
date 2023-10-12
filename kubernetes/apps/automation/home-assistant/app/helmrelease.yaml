@@ -29,15 +29,15 @@ spec:
     controllers:
       main:
         type: statefulset
-        # annotations:
-        #   reloader.stakater.com/auto: "true"
+        annotations:
+          reloader.stakater.com/auto: "true"
         statefulset:
-          volumeClaimTemplates:
-            - name: config
-              mountPath: /config
-              accessMode: ReadWriteOnce
-              size: 5Gi
-              storageClass: longhorn-apps
+          # volumeClaimTemplates:
+          #   - name: config
+          #     mountPath: /config
+          #     accessMode: ReadWriteOnce
+          #     size: 5Gi
+          #     storageClass: longhorn-apps
         initContainers:
           01-init-db:
             image:
@@ -79,6 +79,7 @@ spec:
               - "/config/.vscode"
               - --extensions-dir
               - "/config/.vscode"
+              - "/config"
             probes:
               liveness:
                 enabled: false
@@ -91,7 +92,10 @@ spec:
         ports:
           http:
             port: 8123
-          codeserver:
+      codeserver:
+        controller: main
+        ports:
+          http:
             port: 8080
     ingress:
       main:
@@ -111,6 +115,7 @@ spec:
           - hosts:
             - *host
       codeserver:
+        controller: main
         enabled: true
         className: internal
         annotations:
@@ -126,6 +131,13 @@ spec:
           tls:
             - hosts:
                 - *host
+    persistence:
+      config:
+        enabled: true
+        retain: true
+        existingClaim: config-home-assistant-0
+        globalMounts:
+          - path: /config
     defaultPodOptions:
       podSecurityContext:
         runAsUser: 568
