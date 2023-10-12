@@ -5,7 +5,7 @@ metadata:
   name: filebrowser-settings
   namespace: default
 data:
-  settings.json: |
+  .filebrowser.json: |
     {
       "port": 80,
       "baseURL": "",

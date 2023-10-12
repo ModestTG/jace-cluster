@@ -32,6 +32,10 @@ spec:
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
+              FB_DTABASE: /config/database.db
+              FB_PORT: &port 80
+              FB_LOG: "stdout"
+              FB_ROOT: /srv
             probes:
               liveness: &probes
                 enabled: true
@@ -39,7 +43,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 80
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -81,11 +85,10 @@ spec:
         path: /mnt/AuxPool/K8S-NFS/filebrowser
         globalMounts:
           - path: /srv
-      filebrowser:
-        enabled: true
-        type: configMap
-        name: filebrowser-settings
-        globalMounts:
-          - path: /config/settings.json
-            readOnly: true
-            subPath: settings.json
+      # filebrowser:
+      #   enabled: true
+      #   type: configMap
+      #   name: filebrowser-settings
+        # globalMounts:
+        #   - path: /
+        #     readOnly: true
