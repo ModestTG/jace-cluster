@@ -87,3 +87,5 @@ spec:
         name: filebrowser-settings
         globalMounts:
           - path: /config/settings.json
+            readOnly: true
+            subPath: settings.json
