@@ -32,10 +32,10 @@ spec:
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
-              FB_DTABASE: /config/database.db
+              FB_DATABASE: "/config/database.db"
               FB_PORT: &port 80
               FB_LOG: "stdout"
-              FB_ROOT: /srv
+              FB_ROOT:  "/srv"
             probes:
               liveness: &probes
                 enabled: true
