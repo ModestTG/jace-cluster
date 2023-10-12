@@ -32,12 +32,12 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         statefulset:
-          # volumeClaimTemplates:
-          #   - name: config
-          #     mountPath: /config
-          #     accessMode: ReadWriteOnce
-          #     size: 5Gi
-          #     storageClass: longhorn-apps
+          volumeClaimTemplates:
+            - name: config
+              mountPath: /config
+              accessMode: ReadWriteOnce
+              size: 5Gi
+              storageClass: longhorn-apps
         initContainers:
           01-init-db:
             image:
@@ -134,8 +134,6 @@ spec:
     persistence:
       config:
         enabled: true
-        retain: true
-        existingClaim: config-home-assistant-0
         globalMounts:
           - path: /config
     defaultPodOptions:
