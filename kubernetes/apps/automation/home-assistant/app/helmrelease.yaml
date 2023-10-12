@@ -131,11 +131,6 @@ spec:
         tls:
           - hosts:
               - *host
-    persistence:
-      config:
-        enabled: true
-        globalMounts:
-          - path: /config
     defaultPodOptions:
       podSecurityContext:
         runAsUser: 568
