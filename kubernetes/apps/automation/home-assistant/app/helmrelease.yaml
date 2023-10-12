@@ -29,8 +29,8 @@ spec:
     controllers:
       main:
         type: statefulset
-        annotations:
-          reloader.stakater.com/auto: "true"
+        # annotations:
+        #   reloader.stakater.com/auto: "true"
         statefulset:
           volumeClaimTemplates:
             - name: config
