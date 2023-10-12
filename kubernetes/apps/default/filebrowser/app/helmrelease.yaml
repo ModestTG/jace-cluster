@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -22,35 +22,40 @@ spec:
     remediation:
       retries: 5
   values:
-    image:
-      repository: ghcr.io/onedr0p/filebrowser
-      tag: v2.25.0
-    env:
-      TZ: "${TIMEZONE}"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/filebrowser
+              tag: v2.25.0
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "${TIMEZONE}"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 80
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
     service:
       main:
         ports:
           http:
-            port: &port 80
-    probes:
-      liveness: &probes
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /health
             port: *port
-          initialDelaySeconds: 0
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness: *probes
-      startup:
-        enabled: false
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: mdi:folder-play-outline
@@ -59,6 +64,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -71,11 +79,11 @@ spec:
         type: nfs
         server: "${SECRET_NFS_SERVER}"
         path: /mnt/AuxPool/K8S-NFS/filebrowser
-        mountPath: /srv
+        globalMounts:
+          - path: /srv
       filebrowser:
         enabled: true
         type: configMap
-        name: filebrowser-configmap
-        subPath: filebrowser.json
-        mountPath: /.filebrowser.json
-        readOnly: true
+        name: filebrowser-settings
+        globalMounts:
+          - path: /config/settings.json
