@@ -59,7 +59,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: mdi:folder-play-outline
