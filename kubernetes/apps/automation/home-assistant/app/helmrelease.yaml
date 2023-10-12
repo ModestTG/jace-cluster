@@ -121,16 +121,16 @@ spec:
         annotations:
           hajimari.io/appName: "Hass Config"
           hajimari.io/icon: cib:visual-studio-code
-          hosts:
-            - host: &host "hass-code.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-                  service:
-                    name: main
-                    port: codeserver
-          tls:
-            - hosts:
-                - *host
+        hosts:
+          - host: &host "hass-code.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: codeserver
+                  port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       config:
         enabled: true
