@@ -99,4 +99,3 @@ spec:
         existingClaim: mealie-config
         globalMounts:
           - path: /app/data
-            subPath: mealie
