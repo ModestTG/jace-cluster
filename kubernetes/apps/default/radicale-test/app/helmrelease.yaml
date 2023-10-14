@@ -67,6 +67,7 @@ spec:
         name: radicale-secret
         globalMounts:
           - path: /config/users
+            subPath: USERS
     defaultPodOptions:
       annotations:
         configmap.reloader.stakater.com/reload: *app
