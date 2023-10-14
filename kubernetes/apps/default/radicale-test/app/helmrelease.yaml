@@ -58,7 +58,7 @@ spec:
             readOnly: true
       data:
         enabled: true
-        existingClaim: radicale-data
+        existingClaim: radicale-data-test
         globalMounts:
           - path: /data
       auth:
