@@ -6,6 +6,6 @@ resources:
   - ./filebrowser/ks.yaml
   - ./hajimari/ks.yaml
   - ./mealie/ks.yaml
-  - ./radicale/ks.yaml
+  # - ./radicale/ks.yaml
   # - ./radicale-test/ks.yaml
   - ./vaultwarden/ks.yaml
