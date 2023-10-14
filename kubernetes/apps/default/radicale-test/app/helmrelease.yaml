@@ -29,12 +29,13 @@ spec:
         ports:
           http:
             port: 5232
+    # bump comment
     ingress:
       main:
         enabled: true
         className: internal
         annotations:
-          hajimari.io/enable: false
+          hajimari.io/enable: "false"
           nginx.ingress.kubernetes.io/proxy-body-size: 4G
         hosts:
           - host: &host "radicale-test.${SECRET_DOMAIN}"
