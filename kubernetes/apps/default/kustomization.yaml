@@ -7,4 +7,4 @@ resources:
   - ./hajimari/ks.yaml
   - ./mealie/ks.yaml
   - ./radicale/ks.yaml
-  # - ./vaultwarden/ks.yaml
+  - ./vaultwarden/ks.yaml
