@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,15 +26,20 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: ghcr.io/advplyr/audiobookshelf
-      tag: 2.4.4
-    env:
-      TZ: ${TIMEZONE}
-      AUDIOBOOKSHELF_UID: 1000
-      AUDIOBOOKSHELF_GID: 1000
-      CONFIG_PATH: /config
-      METADATA_PATH: /config/metadata
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/advplyr/audiobookshelf
+              tag: 2.4.4
+              pullPolicy: IfNotPresent
+            env:
+              TZ: ${TIMEZONE}
+              AUDIOBOOKSHELF_UID: 1000
+              AUDIOBOOKSHELF_GID: 1000
+              CONFIG_PATH: /config
+              METADATA_PATH: /config/metadata
     service:
       main:
         ports:
@@ -43,7 +48,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: "mdi:book-music"
@@ -52,33 +57,40 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
             - *host
     persistence:
       config:
         enabled: true
-        mountPath: /config
         existingClaim: audiobookshelf-config
+        globalMounts:
+          - path: /config
       audiobooks:
         enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/audiobookshelf/audiobooks
-        mountPath: /audiobooks
+        globalMounts:
+          - path: /audiobooks
       podcasts:
         enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/audiobookshelf/podcasts
-        mountPath: /podcasts
+        globalMounts:
+          - path: /podcasts
       cache:
         enabled: true
-        mountPath: /.npm
         type: emptyDir
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      fsGroupChangePolicy: OnRootMismatch
-
+        globalMounts:
+          - path: /.npm
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
