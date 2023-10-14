@@ -9,19 +9,21 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       interval: 15m
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   values:
-    image:
-      repository: tomsquest/docker-radicale
-      tag: 3.1.8.3
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: *app
-      secret.reloader.stakater.com/reload: *app
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: tomsquest/docker-radicale
+              tag: 3.1.8.3
+              pullPolicy: IfNotPresent
     service:
       main:
         ports:
@@ -30,7 +32,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: external
+        className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           nginx.ingress.kubernetes.io/proxy-body-size: 4G
@@ -39,6 +41,9 @@ spec:
           - host: &host "radicale.${SECRET_DOMAIN}"
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -47,17 +52,23 @@ spec:
         enabled: true
         type: configMap
         name: radicale-configmap
-        subPath: config.cfg
-        mountPath: /config/config
-        readOnly: true
+        globalMounts:
+          - path: /config/config
+            subPath: config.cfg
+            readOnly: true
       data:
         enabled: true
         existingClaim: radicale-data
-        mountPath: /data
+        globalMounts:
+          - path: /data
       auth:
         enabled: true
         type: secret
         name: radicale-secret
-        subPath: USERS
-        mountPath: /config/users
-        readOnly: true
+        globalMounts:
+          - path: /config/users
+            subPath: USERS
+    defaultPodOptions:
+      annotations:
+        configmap.reloader.stakater.com/reload: *app
+        secret.reloader.stakater.com/reload: *app
