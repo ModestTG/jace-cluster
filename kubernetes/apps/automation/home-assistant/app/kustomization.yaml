@@ -6,5 +6,3 @@ namespace: automation
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-# patchesStrategicMerge:
-#   - ./patches/addons.yaml
