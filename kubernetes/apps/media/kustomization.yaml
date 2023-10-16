@@ -4,9 +4,10 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./audiobookshelf/ks.yaml
-  # - ./immich/ks.yaml
+  - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
+  - ./freshrss/ks.yaml
