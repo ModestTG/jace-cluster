@@ -41,17 +41,26 @@ spec:
               TZ: ${TIMEZONE}
               CRON_MIN: "18,48"
               DOMAIN: "https://rss.${SECRET_DOMAIN}/"
+      fivefilters-full-text-rss:
+        containers:
+          main:
+            image:
+              repository: heussd/fivefilters-full-text-rss
+              tag: latest@sha256:8ee15cd0d82578413b26c771fbf486cccc166d1f60c0713da740b11358814dbf
+              pullPolicy: IfNotPresent
+            env_from:
+              - secretRef:
+                  name: freshrss-secret
     service:
       main:
         ports:
           http:
             port: 80
-    persistence:
-      config:
-        enabled: true
-        existingClaim: freshrss-config
-        globalMounts:
-          - path: /var/www/FreshRSS/data
+      second:
+        controller: fivefilters-full-text-rss
+        ports:
+          http:
+            port: 80
     ingress:
       main:
         enabled: true
@@ -68,4 +77,36 @@ spec:
                   port: http
         tls:
           - hosts:
-              - *host
+              - "rss.${SECRET_DOMAIN}"
+      second:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/icon: mdi:rss
+          hajimari.io/appName: "FTR"
+        hosts:
+          - host: &host "rss-ftr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: second
+                  port: http
+        tls:
+          - hosts:
+              - "rss-ftr.${SECRET_DOMAIN}"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: freshrss-config
+        advancedMounts:
+          main:
+            main:
+              - path: /var/www/FreshRSS/data
+      cache:
+        enabled: true
+        existingClaim: freshrss-config-ftr
+        advancedMounts:
+          fivefilters-full-text-rss:
+            main:
+              - path: /var/www/html/cache
