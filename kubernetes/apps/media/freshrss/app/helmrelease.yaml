@@ -64,8 +64,9 @@ spec:
     ingress:
       main:
         enabled: true
-        className: external
+        className: internal
         annotations:
+          external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: mdi:rss
         hosts:
           - host: &host "rss.${SECRET_DOMAIN}"
