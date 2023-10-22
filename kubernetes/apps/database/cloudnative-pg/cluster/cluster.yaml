@@ -12,12 +12,11 @@ spec:
   storage:
     size: 10Gi
     storageClass: local-path
-  enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: &previous-cluster postgres-v3 #This must match backup.barmanObjectStore.serverName from previous backup
+      source: &previous-cluster postgres-v2 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     parameters:
       max_connections: "600"
@@ -32,7 +31,7 @@ spec:
         maxParallel: 8
       destinationPath: &dest-path s3://postgresql-data/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: postgres-v4 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: postgres-v3 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: longhorn-backup-secret
