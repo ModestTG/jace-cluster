@@ -16,7 +16,7 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: &previous-cluster postgres-v2 #This must match backup.barmanObjectStore.serverName from previous backup
+      source: &previous-cluster postgres-v3 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     parameters:
       max_connections: "600"
