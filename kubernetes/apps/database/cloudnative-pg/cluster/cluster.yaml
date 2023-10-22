@@ -50,3 +50,7 @@ spec:
         destinationPath: *dest-path
         endpointURL: *endpoint-url
         s3Credentials: *s3-creds
+  affinity:
+    topologyKey: topology.kubernetes.io/zone
+    nodeSelector:
+      cnpg: true
