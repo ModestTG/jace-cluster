@@ -83,10 +83,14 @@ spec:
         existingClaim: iventoy-config
         globalMounts:
           - path: /app/data
-      iso:
-        enabled: true
-        type: nfs
-        server: "${SECRET_NFS_SERVER}"
-        path: /mnt/AuxPool/iso
-        globalMounts:
-          - path: /app/iso
+      # iso:
+      #   enabled: true
+      #   type: nfs
+      #   server: "${SECRET_NFS_SERVER}"
+      #   path: /mnt/AuxPool/iso
+      #   globalMounts:
+      #     - path: /app/iso
+    defaultPodOptions:
+      securityContext:
+        supplementalGroups:
+          - 1000
