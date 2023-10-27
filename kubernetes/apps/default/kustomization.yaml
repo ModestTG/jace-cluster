@@ -5,7 +5,6 @@ resources:
   - ./namespace.yaml
   - ./filebrowser/ks.yaml
   - ./hajimari/ks.yaml
-  - ./iventoy/ks.yaml
   - ./mealie/ks.yaml
   - ./radicale/ks.yaml
   - ./vaultwarden/ks.yaml
