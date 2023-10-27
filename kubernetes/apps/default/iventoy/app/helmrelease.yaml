@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app iventoy
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.0.3
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ziggyds/iventoy
+              tag: latest@sha256:ea7532fd52a03ee3fac087fcee5f4c31cc3c432fb46e434d748911350e2dc139
+              pullPolicy: IfNotPresent
+            probes:
+              readiness:
+                enabled: false
+              liveness:
+                enabled: false
+              startup:
+                enabled: false
+    service:
+      main:
+        ports:
+          http:
+            port: 26000
+          dhcp1:
+            enabled: true
+            port: 67
+            protocol: UDP
+            targetPort: 67
+          dhcp2:
+            enabled: true
+            port: 68
+            protocol: UDP
+            targetPort: 68
+          tftp:
+            enabled: true
+            port: 69
+            protocol: UDP
+            targetPort: 69
+          pxe:
+            enabled: true
+            port: 16000
+            protocol: TCP
+            targetPort: 16000
+          nbd:
+            enabled: true
+            port: 10809
+            protocol: TCP
+            targetPort: 10809
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/enable: "false"
+        hosts:
+          - host: &host "iventoy.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: iventoy-config
+        globalMounts:
+          - path: /app/data
+      iso:
+        enabled: true
+        type: nfs
+        server: "${SECRET_NFS_SERVER}"
+        path: /mnt/AuxPool/iso
+        globalMounts:
+          - path: /app/iso
