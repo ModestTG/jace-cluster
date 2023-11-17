@@ -29,6 +29,7 @@ spec:
     image:
       repository: public.ecr.aws/docker/library/redis
       tag: 7.2.3
+      imagePullPolicy: IfNotPresent
     env:
       REDIS_REPLICATION_MODE: master
     command: ["redis-server"]
