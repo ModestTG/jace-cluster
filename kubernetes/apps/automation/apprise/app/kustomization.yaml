@@ -5,4 +5,4 @@ kind: Kustomization
 namespace: automation
 resources:
   - ./helmrelease.yaml
-  # - ./pvc.yaml
+  - ./pvc.yaml
