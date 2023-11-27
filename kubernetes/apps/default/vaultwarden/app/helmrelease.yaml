@@ -33,7 +33,7 @@ spec:
               TZ: "${TIMEZONE}"
               DATA_FOLDER: "config"
               DOMAIN: https://vault.${SECRET_DOMAIN}
-              SIGNUPS_ALLOWED: true
+              SIGNUPS_ALLOWED: false
               WEBSOCKET_ENABLED: true
               WEBSOCKET_ADDRESS: 0.0.0.0
               WEBSOCKET_PORT: 3012
