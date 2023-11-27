@@ -27,7 +27,7 @@ spec:
     parameters:
       replicaAutoBalance: best-effort
       dataLocality: best-effort
-      numberOfReplicas: "2"
+      numberOfReplicas: "3"
       staleReplicaTimeout: "30"
     groups:
       "Apps":
