@@ -66,4 +66,4 @@ spec:
         enabled: true
         existingClaim: mealie-config
         globalMounts:
-          - path: /data
+          - path: /app/data
