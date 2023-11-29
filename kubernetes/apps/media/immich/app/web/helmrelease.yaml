@@ -56,7 +56,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/appName: "Immich"
-          hajimari.io/icon: heroicons:photo
+          hajimari.io/icon: simple-icons:immich
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite /api/(.*) /$1 break;
           nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
