@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.0.3
+      version: 2.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,50 +31,18 @@ spec:
         containers:
           main:
             image:
-              repository: docker.io/hkotel/mealie
-              tag: frontend-v1.0.0beta-5
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v1.0.0-RC1.1
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
-              # Light Mode Config
-              THEME_LIGHT_PRIMARY: "#005AE6"
-              THEME_LIGHT_ACCENT: "#FEBF00"
-              THEME_LIGHT_SECONDARY: "#0DFC9D"
-              THEME_LIGHT_SUCCESS: "#43A047"
-              THEME_LIGHT_INFO: "#1976D2"
-              THEME_LIGHT_WARNING: "#FF6D00"
-              THEME_LIGHT_ERROR: "#EF5350"
-              # Dark Mode Config
-              THEME_DARK_PRIMARY: "#0097A7"
-              THEME_DARK_ACCENT: "#007A99"
-              THEME_DARK_SECONDARY: "#4ba3c7"
-              THEME_DARK_SUCCESS: "#43A047"
-              THEME_DARK_INFO: "#1976D2"
-              THEME_DARK_WARNING: "#FF6D00"
-              THEME_DARK_ERROR: "#EF5350"
-          api:
-            image:
-              repository: docker.io/hkotel/mealie
-              tag: api-v1.0.0beta-5
-              pullPolicy: IfNotPresent
-            env:
-              API_PORT: "9000"
-              TZ: ${TIMEZONE}
-              PUID: 1000
-              PGID: 1000
-              TOKEN_TIME: 720 # 24 hours * 30 days
-              BASE_URL: "https://recipes.${SECRET_DOMAIN}"
-              AUTO_BACKUP_ENABLED: true
-              ALLOW_SIGNUP: false
+              BASE_URL: &host recipes.${SECRET_DOMAIN}
+              ALLOW_SIGNUPS: true
+              API_DOCS: true
     service:
       main:
         ports:
           http:
-            port: 3000
-      api:
-        controller: main
-        ports:
-          api:
             port: 9000
     ingress:
       main:
@@ -83,7 +51,7 @@ spec:
         annotations:
           hajimari.io/icon: mdi:food
         hosts:
-          - host: &host "recipes.${SECRET_DOMAIN}"
+          - host: *host
             paths:
               - path: /
                 pathType: Prefix
@@ -98,4 +66,4 @@ spec:
         enabled: true
         existingClaim: mealie-config
         globalMounts:
-          - path: /app/data
+          - path: /data
