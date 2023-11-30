@@ -45,8 +45,10 @@ spec:
           reloader.stakater.com/auto: "true"
         initContainers:
           01-init-db:
-            image: ghcr.io/onedr0p/postgres-init:14.9
-            imagePullPolicy: IfNotPresent
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              imagePullPolicy: IfNotPresent
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -55,6 +57,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.89.0
+              imagePullPolicy: IfNotPresent
             command: /bin/sh
             args:
               - ./start-server.sh
