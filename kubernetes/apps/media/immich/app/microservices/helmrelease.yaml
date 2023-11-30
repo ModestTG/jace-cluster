@@ -26,7 +26,9 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: immich-redis
     - name: immich-typesense
+    - name: immich-server
   values:
     defaultPodOptions:
       topologySpreadConstraints:
