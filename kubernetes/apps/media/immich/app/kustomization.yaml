@@ -11,7 +11,7 @@ resources:
   - ./server
   - ./microservices
   - ./machine-learning
-  - ./web
+  # - ./web
 labels:
   - pairs:
       app.kubernetes.io/name: immich
