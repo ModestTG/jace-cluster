@@ -31,6 +31,13 @@ spec:
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
+        statefulset:
+          volumeClaimTemplates:
+            - name: config
+              mountPath: /config
+              accessMode: ReadWriteOnce
+              size: 50Gi
+              storageClass: longhorn-apps
         containers:
           main:
             image:
@@ -61,9 +68,3 @@ spec:
       readiness: *probes
       startup:
         enabled: false
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 50Gi
-        storageClass: longhorn-apps
