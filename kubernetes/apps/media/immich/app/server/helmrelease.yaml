@@ -79,9 +79,9 @@ spec:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: simple-icons:immich
           hajimari.io/appName: Immich
-          nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          # nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
+          # nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
         hosts:
           - host: &host photos.${SECRET_DOMAIN}
             paths:
