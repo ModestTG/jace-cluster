@@ -60,7 +60,7 @@ spec:
               imagePullPolicy: IfNotPresent
             command: /bin/sh
             args:
-              - ./start-server.shm_size: value
+              - ./start-server.sh
             envFrom:
               - secretRef:
                   name: immich-secret
