@@ -61,8 +61,6 @@ spec:
             command: /bin/sh
             args:
               - ./start-server.sh
-            env:
-              SERVER_PORT: &port 3001
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -72,7 +70,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 3001
     ingress:
       main:
         enabled: true
