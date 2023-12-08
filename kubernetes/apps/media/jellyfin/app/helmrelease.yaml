@@ -34,7 +34,7 @@ spec:
             image:
               repository: jellyfin/jellyfin
               tag: 10.8.13@sha256:887e48b9b7a7a3db741d85bfa7d7914a4ac40e15e0dc1d77275e3416cc2c10e1
-              imagePullPolicy: IfNotPresent
+              pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
             probes:

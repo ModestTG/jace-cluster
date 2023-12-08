@@ -48,7 +48,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 14.9
-              imagePullPolicy: IfNotPresent
+              pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -57,7 +57,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.90.2
-              imagePullPolicy: IfNotPresent
+              pullPolicy: IfNotPresent
             command: /bin/sh
             args:
               - ./start-server.sh
