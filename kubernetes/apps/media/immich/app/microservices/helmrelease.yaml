@@ -49,6 +49,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.90.2
+              imagePullPolicy: IfNotPresent
             command: /bin/sh
             args:
               - ./start-microservices.sh
