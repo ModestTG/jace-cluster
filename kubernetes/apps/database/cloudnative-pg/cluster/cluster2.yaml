@@ -7,7 +7,7 @@ metadata:
   namespace: database
 spec:
   instances: 3
-  imageName: tensorchord/pgvecto-rs:pg14-v0.1.11
+  imageName: ghcr.io/bo0tzz/cnpgvecto.rs:14-v0.1.10
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
@@ -15,10 +15,20 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
+  bootstrap:
+    initdb:
+      import:
+        type: microservice
+        databases:
+          - immich
+        source:
+          externalCluster: postgres
   # bootstrap:
   #   recovery:
   #     source: &previous-cluster postgres-v3 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
     parameters:
       max_connections: "600"
       shared_buffers: 512MB
@@ -32,7 +42,7 @@ spec:
         maxParallel: 8
       destinationPath: &dest-path s3://postgresql-data/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: pgvecto-v1 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: pgvecto-v0 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: longhorn-backup-secret
@@ -41,12 +51,12 @@ spec:
           name: longhorn-backup-secret
           key: AWS_SECRET_ACCESS_KEY
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previous-cluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: *dest-path
-  #       endpointURL: *endpoint-url
-  #       s3Credentials: *s3-creds
+  externalClusters:
+    - name: postgres
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: *dest-path
+        endpointURL: *endpoint-url
+        s3Credentials: *s3-creds
