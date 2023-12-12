@@ -42,7 +42,7 @@ spec:
         maxParallel: 8
       destinationPath: &dest-path s3://postgresql-data/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: pgvecto #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: &previous-cluster pgvecto #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: longhorn-backup-secret
@@ -60,3 +60,12 @@ spec:
       password:
         name: cloudnative-pg-secret
         key: password
+  # externalClusters:
+  #   - name: *previous-cluster
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: *dest-path
+  #       endpointURL: *endpoint-url
+  #       s3Credentials: *s3-creds
