@@ -18,8 +18,8 @@ spec:
   bootstrap:
     initdb:
       postInitApplicationSQL:
-        - ALTER EXTENSION cube SET SCHEMA pg_catalog
-        - ALTER EXTENSION earthdistance SET SCHEMA pg_catalog
+        - CREATE EXTENSION cube WITH SCHEMA pg_catalog
+        - CREATE EXTENSION earthdistance WITH SCHEMA pg_catalog
       import:
         type: microservice
         databases:
