@@ -10,13 +10,16 @@ spec:
   imageName: ghcr.io/bo0tzz/cnpgvecto.rs:14-v0.1.10
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 10Gi
+    size: 5Gi
     storageClass: local-path
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
   bootstrap:
     initdb:
+      postInitApplicationSQL:
+        - ALTER EXTENSION cube SET SCHEMA pg_catalog
+        - ALTER EXTENSION earthdistance SET SCHEMA pg_catalog
       import:
         type: microservice
         databases:
