@@ -56,7 +56,7 @@ spec:
       connectionParameters:
         host: postgres-ro.database.svc.cluster.local
         user: postgres
-        dbname: immich
+        dbname: postgres
       password:
         name: cloudnative-pg-secret
         key: password
