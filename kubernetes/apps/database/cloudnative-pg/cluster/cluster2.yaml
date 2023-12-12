@@ -16,16 +16,16 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   bootstrap:
-    initdb:
-      postInitApplicationSQL:
-        - CREATE EXTENSION cube WITH SCHEMA pg_catalog
-        - CREATE EXTENSION earthdistance WITH SCHEMA pg_catalog
-      import:
-        type: microservice
-        databases:
-          - immich
-        source:
-          externalCluster: postgres
+    pg_basebackup:
+      # postInitApplicationSQL:
+      #   - CREATE EXTENSION cube WITH SCHEMA pg_catalog
+      #   - CREATE EXTENSION earthdistance WITH SCHEMA pg_catalog
+      # import:
+      #   type: microservice
+      #   databases:
+      #     - immich
+        source: postgres
+          # externalCluster: postgres
   # bootstrap:
   #   recovery:
   #     source: &previous-cluster postgres-v3 #This must match backup.barmanObjectStore.serverName from previous backup
