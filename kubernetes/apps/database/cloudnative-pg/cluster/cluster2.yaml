@@ -15,14 +15,6 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
-  # bootstrap:
-  #   initdb:
-  #     import:
-  #       type: microservice
-  #       databases:
-  #         - immich
-  #       source:
-  #         externalCluster: postgres
   bootstrap:
     recovery:
       source: &previous-cluster pgvecto #This must match backup.barmanObjectStore.serverName from previous backup
@@ -51,15 +43,6 @@ spec:
           name: longhorn-backup-secret
           key: AWS_SECRET_ACCESS_KEY
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: postgres
-  #     connectionParameters:
-  #       host: postgres-ro.database.svc.cluster.local
-  #       user: postgres
-  #       dbname: immich
-  #     password:
-  #       name: cloudnative-pg-secret
-  #       key: password
   externalClusters:
     - name: *previous-cluster
       barmanObjectStore:
