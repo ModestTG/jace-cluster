@@ -15,17 +15,17 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
-  bootstrap:
-    initdb:
-      import:
-        type: microservice
-        databases:
-          - immich
-        source:
-          externalCluster: postgres
   # bootstrap:
-  #   recovery:
-  #     source: &previous-cluster postgres-v3 #This must match backup.barmanObjectStore.serverName from previous backup
+  #   initdb:
+  #     import:
+  #       type: microservice
+  #       databases:
+  #         - immich
+  #       source:
+  #         externalCluster: postgres
+  bootstrap:
+    recovery:
+      source: &previous-cluster pgvecto-v1 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
@@ -51,21 +51,21 @@ spec:
           name: longhorn-backup-secret
           key: AWS_SECRET_ACCESS_KEY
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: postgres
-      connectionParameters:
-        host: postgres-ro.database.svc.cluster.local
-        user: postgres
-        dbname: immich
-      password:
-        name: cloudnative-pg-secret
-        key: password
   # externalClusters:
-  #   - name: *previous-cluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: *dest-path
-  #       endpointURL: *endpoint-url
-  #       s3Credentials: *s3-creds
+  #   - name: postgres
+  #     connectionParameters:
+  #       host: postgres-ro.database.svc.cluster.local
+  #       user: postgres
+  #       dbname: immich
+  #     password:
+  #       name: cloudnative-pg-secret
+  #       key: password
+  externalClusters:
+    - name: *previous-cluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: *dest-path
+        endpointURL: *endpoint-url
+        s3Credentials: *s3-creds
