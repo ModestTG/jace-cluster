@@ -27,7 +27,6 @@ spec:
     keepHistory: false
   dependsOn:
     - name: immich-redis
-    - name: immich-typesense
     - name: immich-server
   values:
     defaultPodOptions:
@@ -48,7 +47,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.90.2
+              tag: v1.91.0
               pullPolicy: IfNotPresent
             command: /bin/sh
             args:
