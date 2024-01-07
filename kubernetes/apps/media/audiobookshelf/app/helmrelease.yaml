@@ -89,8 +89,7 @@ spec:
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/audiobookshelf/backups
         globalMounts:
-          - path: /backups
-
+          - path: /config/metadata/backups
       cache:
         enabled: true
         type: emptyDir

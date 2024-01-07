@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: freshrss/freshrss
-              tag: 1.22.1
+              tag: 1.23.1
               pullPolicy: IfNotPresent
             env:
               TZ: ${TIMEZONE}
@@ -46,7 +46,7 @@ spec:
           main:
             image:
               repository: heussd/fivefilters-full-text-rss
-              tag: latest@sha256:c2546eef54aaa984a248227f732ccc2204c584a9aa01bb67565d7d24c5549c02
+              tag: latest@sha256:69709e9be3b6a608c452903ee621dba83abc90b84531001d0aa1758d8f94fe54
               pullPolicy: IfNotPresent
             env_from:
               - secretRef:
