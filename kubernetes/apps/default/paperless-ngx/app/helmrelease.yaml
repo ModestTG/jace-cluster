@@ -15,10 +15,20 @@ spec:
         name: bjw-s
         namespace: flux-system
   dependsOn:
-    - name: database-cloudnative-pg-cluster
+    - name: cloudnative-pg
+      namespace: database
   values:
     controllers:
       main:
+        initContainers:
+          01-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: paperless-ngx-secret
         containers:
           main:
             image:
@@ -28,7 +38,7 @@ spec:
             env:
               COMPOSE_PROJECT_NAME: paperless-ngx
               PAPERLESS_TIME_ZONE: US/Central
-              PAPERLESS_URL: &host docs.${SECRET_DOMAIN}
+              PAPERLESS_URL: https://docs.${SECRET_DOMAIN}
               USERMAP_UID: 1000
               USERMAP_GID: 1000
               PAPERLESS_CONSUMPTION_DIR: &dirConsume /paperless/consume
@@ -41,6 +51,7 @@ spec:
               PAPERLESS_CONSUMER_RECURSIVE: true
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: true
               PAPERLESS_OCR_LANGUAGE: eng
+            envFrom: *envFrom
           redis:
             image:
               repository: docker.io/library/redis
@@ -58,22 +69,22 @@ spec:
         annotations:
           hajimari.io/name: "Paperless-NGX"
         hosts:
-          - host: *host
+          - host: &host docs.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
                   name: main
                   port: http
         tls:
-            hosts:
-              - *host
+          - hosts:
+            - *host
     persistence:
       data:
         existingClaim: paperless-ngx-data
         advancedMounts:
           main:
             main:
-              - path: /paperless
+              - path: /paperless/data
       redis:
         existingClaim: paperless-ngx-redis
         advancedMounts:
@@ -98,3 +109,11 @@ spec:
           main:
             main:
               - path: *dirConsume
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+          - 1000
