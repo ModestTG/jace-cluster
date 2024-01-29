@@ -29,15 +29,11 @@ spec:
               COMPOSE_PROJECT_NAME: paperless-ngx
               PAPERLESS_TIME_ZONE: US/Central
               PAPERLESS_URL: &host docs.${SECRET_DOMAIN}
-              PAPERLESS_DBNAME: paperless-ngx
-              PAPERLESS_DBUSER: paperless-ngx
-              PAPERLESS_DBPASS: ${SECRET_PAPERLESS_NGX_DB_PASSWORD}
-              PAPERLESS_REDIS: redis://paperless-ngx-redis-master:6379
               USERMAP_UID: 1000
               USERMAP_GID: 1000
-              PAPERLESS_CONSUMPTION_DIR: /paperless/consume
+              PAPERLESS_CONSUMPTION_DIR: &dirConsume /paperless/consume
               PAPERLESS_DATA_DIR: /paperless/data
-              PAPERLESS_MEDIA_ROOT: /paperless/media
+              PAPERLESS_MEDIA_ROOT: &dirMedia /paperless/media
               PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
               PAPERLESS_CONSUMER_POLLING: 60
@@ -45,7 +41,11 @@ spec:
               PAPERLESS_CONSUMER_RECURSIVE: true
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: true
               PAPERLESS_OCR_LANGUAGE: eng
-              PAPERLESS_SECRET_KEY: ${SECRET_PAPERLESS_NGX_SECRET_KEY}
+          redis:
+            image:
+              repository: docker.io/library/redis
+              tag: 7
+              pullPolicy: IfNotPresent
     service:
       main:
         ports:
@@ -54,25 +54,47 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-external
+        className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: "${SECRET_GATEWAY}"
-          kubernetes.io/tls-acme: "true"
-          nginx.ingress.kubernetes.io/auth-url: http://authelia.networking.svc.cluster.local/api/verify
-          nginx.ingress.kubernetes.io/auth-signin: https://auth.${SECRET_DOMAIN}
+          hajimari.io/name: "Paperless-NGX"
         hosts:
-          - host: paperless.${SECRET_DOMAIN}
+          - host: *host
             paths:
               - path: /
                 service:
                   name: main
                   port: http
         tls:
-          - secretName: paperless-tls
             hosts:
-              - paperless.${SECRET_DOMAIN}
+              - *host
     persistence:
       data:
         existingClaim: paperless-ngx-data
-        globalMounts:
-        - path: /paperless
+        advancedMounts:
+          main:
+            main:
+              - path: /paperless
+      redis:
+        existingClaim: paperless-ngx-redis
+        advancedMounts:
+          main:
+            redis:
+              - path: /data
+      docs:
+        enabled: true
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/paperless-ngx/docs
+        advancedMounts:
+          main:
+            main:
+              - path: *dirMedia
+      media:
+        enabled: true
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/paperless-ngx/consume
+        advancedMounts:
+          main:
+            main:
+              - path: *dirConsume
