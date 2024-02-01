@@ -65,6 +65,8 @@ spec:
               repository: apache/tika
               tag: 2.9.1.0
               pullPolicy: IfNotPresent
+            ports:
+              - containerPort: 9998
     service:
       main:
         ports:
