@@ -50,7 +50,11 @@ spec:
               PAPERLESS_CONSUMER_DELETE_DUPLICATES: true
               PAPERLESS_CONSUMER_RECURSIVE: true
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: true
-              PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
+              PAPERLESS_OCR_USER_ARGS: >
+                {
+                  "invalidate_digital_signatures": true,
+                  "continue_on_soft_render_error": true
+                }
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_TIKA_ENABLED: true
               PAPERLESS_TIKA_ENDPOINT: http://127.0.0.1:9998
