@@ -1,0 +1,58 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app fasten
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/fastenhealth/fasten-onprem
+              tag: main-v1.1.0@sha256:dad9b52c5a4454689d51ef5c7484d1a58de9f5eaeedc088a557bf0c84238e421
+              pullPolicy: IfNotPresent
+    service:
+      main:
+        ports:
+          http:
+            port: 9090
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/icon: mdi:medication
+        hosts:
+          - host: &host "health.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        enabled: true
+        existingClaim: fasten-data
+        globalMounts:
+          - path: /opt/fasten/db
+      cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /opt/fasten/cache
