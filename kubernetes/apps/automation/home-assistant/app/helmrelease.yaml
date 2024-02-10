@@ -68,7 +68,7 @@ spec:
           codeserver:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.20.1
+              tag: 4.21.1
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
