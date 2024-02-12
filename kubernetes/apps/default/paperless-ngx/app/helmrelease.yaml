@@ -72,14 +72,14 @@ spec:
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.0-minimal
+              tag: 2.9.1-minimal
               pullPolicy: IfNotPresent
             ports:
               - containerPort: 9998
           gotenberg:
             image:
               repository: gotenberg/gotenberg
-              tag: 8.0.2
+              tag: 8.0.3
               pullPolicy: IfNotPresent
             ports:
               - containerPort: 3000
