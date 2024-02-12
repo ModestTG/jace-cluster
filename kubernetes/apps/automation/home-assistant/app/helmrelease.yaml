@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.0.3
+      version: 2.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -51,7 +51,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.1.6@sha256:3ae078c549ba6a0d2c6f2921aab53e492cd688956da6a51867e999f87ed59d13
+              tag: 2024.2.1@sha256:150cd1a1cd09a1629b4f15520dea41f305559c876f136e04f7977cbd6c33ec23
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
@@ -68,7 +68,7 @@ spec:
           codeserver:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.20.1
+              tag: 4.21.1
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
