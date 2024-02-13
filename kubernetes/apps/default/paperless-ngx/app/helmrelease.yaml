@@ -98,7 +98,7 @@ spec:
         className: internal
         annotations:
           hajimari.io/name: "Paperless-NGX"
-          hajimari.io/icon: simple-icons:paperless-ngx
+          hajimari.io/icon: simple-icons:paperlessngx
         hosts:
           - host: &host docs.${SECRET_DOMAIN}
             paths:
