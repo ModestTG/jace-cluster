@@ -64,7 +64,7 @@ spec:
         enabled: true
         className: internal
         annotations:
-          hajimari.io/icon: mdi:sitemap
+          hajimari.io/icon: simple-icons:nodered
         hosts:
           - host: &host "node-red.${SECRET_DOMAIN}"
             paths:
