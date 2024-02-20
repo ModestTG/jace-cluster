@@ -27,7 +27,7 @@ spec:
           main:
             image:
               repository: vaultwarden/server
-              tag: 1.30.3-alpine
+              tag: 1.30.3
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
