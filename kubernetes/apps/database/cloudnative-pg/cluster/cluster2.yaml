@@ -17,7 +17,7 @@ spec:
     name: cloudnative-pg-secret
   bootstrap:
     recovery:
-      source: &previous-cluster pgvecto-v1 #This must match backup.barmanObjectStore.serverName from previous backup
+      source: &previous-cluster pgvecto-v2 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
@@ -34,7 +34,7 @@ spec:
         maxParallel: 8
       destinationPath: &dest-path s3://postgresql-data/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: pgvecto-v2 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: pgvecto-v3 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: longhorn-backup-secret
