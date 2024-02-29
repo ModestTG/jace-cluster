@@ -46,7 +46,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.95.1
+              tag: v1.97.0
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
