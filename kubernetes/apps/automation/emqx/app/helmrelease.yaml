@@ -53,6 +53,14 @@ spec:
         tls:
           - hosts:
               - *host1
+    extraVolumeMounts:
+      - name: emqx-acl
+        mountPath: /opt/emqx/etc/acl.conf
+        subPath: acl.conf
+    extraVolumes:
+      - name: emqx-acl
+        configMap:
+          name: emqx-acl-config
     metrics:
       enabled: true
     affinity:
