@@ -58,7 +58,7 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-          hajimari.io/icon: "shield-key"
+          hajimari.io/icon: simple-icons:vaultwarden
         className: external
         hosts:
           - host: &host "vault.${SECRET_DOMAIN}"
