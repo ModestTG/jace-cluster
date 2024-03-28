@@ -51,7 +51,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.3.1@sha256:c2cbd20b74c92d88f9b9fe9f98ea35c7783b7b194fdc55256c8be0fef3084799
+              tag: 2024.3.3@sha256:b92c59777b95607b5ecd10fe649a18caed08c9c077abfeee0dda9ad5f105a459
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
