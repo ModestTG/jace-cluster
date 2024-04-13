@@ -62,10 +62,13 @@
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackagePatterns": [
         "ghcr.io/onedr0p/sabnzbd",
-        "ghcr.io/onedr0p/.*arr",
+        "ghcr.io/onedr0p/.*arr-develop",
         "kubernetes-dashboard",
         "reloader",
-        ""]
+        "gotenberg/gotenberg",
+        "ghcr.io/coder/code-server",
+        "ghcr.io/paperless-ngx/paperless-ngx"
+        ]
     },
     {
       "description": "Auto merge ansible dependencies",
