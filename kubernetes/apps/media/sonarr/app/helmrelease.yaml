@@ -30,7 +30,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.2.1408@sha256:a6b872a1c52feabdeef37237e00d32e630061de7d468c3289d52ed075c180b9b
+              tag: 4.0.3.1486@sha256:fd3d67c0340b5bfe1dcb519ad0bae101308d2a095b84d2c1c540b877cf67d4f3
               pullPolicy: IfNotPresent
             env:
               SONARR__INSTANCE_NAME: Sonarr
