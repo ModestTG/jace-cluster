@@ -55,17 +55,21 @@
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "description": "Auto merge container digests updates for trusted containers",
+      "description": "Auto merge for trusted containers",
       "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "matchPackagePatterns": ["ghcr.io/onedr0p"]
+      "matchPackagePatterns": [
+        "ghcr.io/onedr0p/sabnzbd",
+        "ghcr.io/onedr0p/.*arr",
+        "kubernetes-dashboard",
+        "reloader",
+        ""]
     },
     {
       "description": "Auto merge ansible dependencies",
       "matchDatasources": ["galaxy", "galaxy-collection"],
-      "matchUpdateTypes": ["major", "minor", "patch"],
       "automerge": true,
       "automergeType": "branch"
     },
