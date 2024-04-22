@@ -67,7 +67,7 @@
         "reloader",
         "gotenberg/gotenberg",
         "ghcr.io/coder/code-server",
-        "ghcr.io/paperless-ngx/paperless-ngx"
+        "ghcr.io/paperless-ngx/paperless-ngx",
         "docker.io/caronc/apprise",
         "ghcr.io/esphome/esphome"
         ]
