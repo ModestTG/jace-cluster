@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.1.0/charts/other/app-template/values.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -34,7 +35,8 @@ spec:
         statefulset:
           volumeClaimTemplates:
             - name: config
-              mountPath: /config
+              globalMounts:
+                - path: /config
               accessMode: ReadWriteOnce
               size: 5Gi
               storageClass: longhorn-apps
@@ -48,7 +50,7 @@ spec:
               - secretRef:
                   name: home-assistant-secret
         containers:
-          main:
+          home-assistant:
             image:
               repository: ghcr.io/onedr0p/home-assistant
               tag: 2024.4.3@sha256:ee014c899edda68f75cca2e2179c85446050da5ce9134e8acc696229b934808d
@@ -88,7 +90,8 @@ spec:
               startup:
                 enabled: false
     service:
-      main:
+      home-assistant:
+        controller: main
         ports:
           http:
             port: 8123
@@ -98,8 +101,7 @@ spec:
           http:
             port: 8080
     ingress:
-      main:
-        enabled: true
+      home-assistant:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
@@ -109,14 +111,12 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: home-assistant
                   port: http
         tls:
           - hosts:
             - *host
       codeserver:
-        controller: main
-        enabled: true
         className: internal
         annotations:
           hajimari.io/appName: "Hass Config"
@@ -126,14 +126,17 @@ spec:
             paths:
               - path: /
                 service:
-                  name: codeserver
+                  identifier: codeserver
                   port: http
         tls:
           - hosts:
               - *host
     defaultPodOptions:
-      podSecurityContext:
+      enableServiceLinks: true
+      securityContext:
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 1000
