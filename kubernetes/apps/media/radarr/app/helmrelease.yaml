@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.4.6.8723@sha256:3bd1545c444c318eefbe4e332da13ab4a3761a7eea8fd0a47474074b0c00f8ff
+              tag: 5.5.1.8747@sha256:dc6b10c3eddacf2f41164d6f6253586accbb66ee7718f12a831704b8d387e3d9
               pullPolicy: IfNotPresent
             env:
               TZ: ${TIMEZONE}
