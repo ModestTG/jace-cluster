@@ -26,7 +26,7 @@ spec:
               tag: 2024.4.0
               pullPolicy: IfNotPresent
             env:
-              ESPHOME_DASHBOARD_USE_PING: true
+              # ESPHOME_DASHBOARD_USE_PING: true
               TZ: ${TIMEZONE}
             probes:
               liveness:
