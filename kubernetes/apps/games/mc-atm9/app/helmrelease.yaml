@@ -1,0 +1,82 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.1.0/charts/other/app-template/values.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: mc-atm9
+  namespace: games
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        containers:
+          mc-atm9:
+            image:
+              repository: ghcr.io/itzg/minecraft-server
+              tag: java21@sha256:de4d91f799c3164cc43fe465e80818f44e37a0c0283f08c35daaad1643249d91
+              pullPolicy: IfNotPresent
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  periodSeconds: 60
+                  exec: &mc-health {command: ["mc-health"]}
+              readiness: *probes
+              startup:
+                <<: *probes
+                spec:
+                  initialDelaySeconds: 60
+                  periodSeconds: 1
+                  failureThreshold: 300
+                  exec: *mc-health
+            env:
+              EULA: true
+              TYPE: "FORGE"
+              VERSION: "1.20.1"
+              FORGE_INSTALLER: forge-1.20.1-47.2.20-installer.jar
+              OVERRIDE_SERVER_PROPERTIES: true
+              TZ: ${TIMEZONE}
+              MEMORY: 8G
+              DIFFICULTY: normal
+    service:
+      minecraft:
+        controller: main
+        annotations:
+          io.cilium/lb-ipam-ips: 10.0.20.204
+        ports:
+          mc:
+            port: 25565
+    persistence:
+      data:
+        existingClaim: mc-atm9-data
+        globalMounts:
+          - path: /data
+      backup:
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/backups/minecraft/atm9
+        globalMounts:
+          - path: /backups
+
+
