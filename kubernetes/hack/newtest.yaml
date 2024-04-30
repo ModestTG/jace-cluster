@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app.kubernetes.io/component: main
+    app.kubernetes.io/instance: node-red
+    app.kubernetes.io/name: node-red
+  name: node-red
+  namespace: test
+spec:
+  containers:
+  - env:
+    - name: NODE_RED_ENABLE_PROJECTS
+      value: "true"
+    - name: NODE_RED_ENABLE_SAFE_MODE
+      value: "false"
+    - name: TZ
+      value: America/Chicago
+    image: docker.io/nodered/node-red:3.1.9
+    imagePullPolicy: IfNotPresent
+    name: main
+  nodeName: jace-master-2
+  restartPolicy: Always
