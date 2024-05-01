@@ -76,6 +76,6 @@ spec:
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/backups/minecraft/atm9
         globalMounts:
-          - path: /backups
+          - path: /data/backups
 
 
