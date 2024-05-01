@@ -41,15 +41,11 @@ spec:
                 custom: true
                 spec:
                   periodSeconds: 60
-                  exec: &mc-health {command: ["mc-health"]}
+                  exec:
+                    command: ["mc-health"]
               readiness: *probes
               startup:
-                <<: *probes
-                spec:
-                  initialDelaySeconds: 300
-                  periodSeconds: 1
-                  failureThreshold: 600
-                  exec: *mc-health
+                enabled: false
             env:
               EULA: true
               TYPE: FORGE
@@ -63,6 +59,8 @@ spec:
     service:
       minecraft:
         controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 10.0.20.204
         ports:
