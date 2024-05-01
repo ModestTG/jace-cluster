@@ -55,6 +55,7 @@ spec:
               TYPE: FORGE
               VERSION: 1.20.1
               FORGE_INSTALLER: forge-1.20.1-47.2.20-installer.jar
+              FORGE_VERSION: 47.2.20
               OVERRIDE_SERVER_PROPERTIES: true
               TZ: ${TIMEZONE}
               MEMORY: 8G
