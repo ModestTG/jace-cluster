@@ -52,9 +52,9 @@ spec:
                   exec: *mc-health
             env:
               EULA: true
-              TYPE: "FORGE"
-              VERSION: "1.20.1"
-              FORGE_INSTALLER: /data/forge-1.20.1-47.2.20-installer.jar
+              TYPE: FORGE
+              VERSION: 1.20.1
+              FORGE_INSTALLER: forge-1.20.1-47.2.20-installer.jar
               OVERRIDE_SERVER_PROPERTIES: true
               TZ: ${TIMEZONE}
               MEMORY: 8G
