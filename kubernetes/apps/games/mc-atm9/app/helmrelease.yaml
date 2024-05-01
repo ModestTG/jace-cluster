@@ -46,9 +46,9 @@ spec:
               startup:
                 <<: *probes
                 spec:
-                  initialDelaySeconds: 60
+                  initialDelaySeconds: 300
                   periodSeconds: 1
-                  failureThreshold: 300
+                  failureThreshold: 600
                   exec: *mc-health
             env:
               EULA: true
