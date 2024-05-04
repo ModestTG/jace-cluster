@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: main
-      image: debian:bullseye
+      image: debian:bookworm
       imagePullPolicy: IfNotPresent
       command: ["/bin/bash"]
       args: ["-c", "sleep 1d"]
