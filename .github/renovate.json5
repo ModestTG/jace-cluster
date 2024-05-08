@@ -56,7 +56,7 @@
     },
     {
       "description": "Auto merge for trusted containers",
-      "matchDatasources": ["docker", "helm"],
+      "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch", "digest"],
@@ -64,7 +64,6 @@
         "ghcr.io/onedr0p/sabnzbd",
         "ghcr.io/onedr0p/.*arr-develop",
         "kubernetes-dashboard",
-        "reloader",
         "gotenberg/gotenberg",
         "ghcr.io/coder/code-server",
         "ghcr.io/paperless-ngx/paperless-ngx",
@@ -74,8 +73,18 @@
         ]
     },
     {
+      "description": "Auto merge for trusted charts",
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchPackagePatterns": [
+        "reloader",
+        ]
+    },
+    {
       "description": "Auto merge ansible dependencies",
-      "matchDatasources": ["galaxy", "galaxy-collection"],
+      "matchDatasources": ["galaxy", "galaxy-collection", "pypi"],
       "automerge": true,
       "automergeType": "branch"
     },
