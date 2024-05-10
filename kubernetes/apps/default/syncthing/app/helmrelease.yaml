@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: syncthing
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controllers:
+      syncthing:
+        containers:
+          syncthing:
+            image:
+              repository: syncthing/syncthing
+              tag: 1.27.7@sha256:22dc697050895cc0a3be38670e750e6737ff5d6542abf1d6118806919bd0c040
+            env:
+              PUID: "1000"
+              PGID: "1000"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+    service:
+      app:
+        controller: syncthing
+        ports:
+          http:
+            port: 8384
+      listdisc:
+        controller: syncthing
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          io.cilium/lb-ipam-ips: 10.0.20.204
+        ports:
+          discovery:
+            enabled: true
+            port: 21027
+            protocol: UDP
+          listen:
+            enabled: true
+            port: 22000
+            protocol: TCP
+    ingress:
+      app:
+        className: internal
+        annotations:
+          hajimari.io/icon: folder-sync
+        hosts:
+          - host: &host sync.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: syncthing
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/filebrowser
+        globalMounts:
+          - path: /var/syncthing
