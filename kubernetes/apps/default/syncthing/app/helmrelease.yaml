@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: syncthing
+  namespace: default
 spec:
   interval: 15m
   chart:
@@ -12,7 +13,7 @@ spec:
       version: 3.1.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: bjw-s
         namespace: flux-system
       interval: 15m
   install:
@@ -33,15 +34,8 @@ spec:
             env:
               PUID: "1000"
               PGID: "1000"
-            probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
     service:
-      app:
+      syncthing:
         controller: syncthing
         ports:
           http:
@@ -62,7 +56,7 @@ spec:
             port: 22000
             protocol: TCP
     ingress:
-      app:
+      syncthing:
         className: internal
         annotations:
           hajimari.io/icon: folder-sync
