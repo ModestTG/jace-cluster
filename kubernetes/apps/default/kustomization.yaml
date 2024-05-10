@@ -9,5 +9,5 @@ resources:
   - ./mealie/ks.yaml
   - ./paperless-ngx/ks.yaml
   - ./radicale/ks.yaml
-  # - ./syncthing/ks.yaml
+  - ./syncthing/ks.yaml
   - ./vaultwarden/ks.yaml

@@ -34,6 +34,18 @@ spec:
             env:
               PUID: "1000"
               PGID: "1000"
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    port: 80
+                    path: /rest/noauth/health
+                  initialDelaySeconds: 30
+              readiness: *probe
+              startup:
+                enabled: false
     service:
       syncthing:
         controller: syncthing
