@@ -72,8 +72,18 @@ spec:
               - *host
     persistence:
       config:
+        existingClaim: syncthing-config
+        globalMounts:
+          - path: /var/syncthing
+      data:
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/filebrowser
         globalMounts:
-          - path: /var/syncthing
+          - path: /files
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
