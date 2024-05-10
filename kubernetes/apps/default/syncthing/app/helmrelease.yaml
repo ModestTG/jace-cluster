@@ -42,7 +42,7 @@ spec:
                   httpGet:
                     port: 80
                     path: /rest/noauth/health
-                  initialDelaySeconds: 30
+                  initialDelaySeconds: 60
               readiness: *probe
               startup:
                 enabled: false
