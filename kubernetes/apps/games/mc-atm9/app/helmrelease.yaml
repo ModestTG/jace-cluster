@@ -41,6 +41,7 @@ spec:
                 custom: true
                 spec:
                   periodSeconds: 60
+                  initialDelaySeconds: 240
                   exec:
                     command: ["mc-health"]
               readiness: *probes
