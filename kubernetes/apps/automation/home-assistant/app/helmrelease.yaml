@@ -137,4 +137,8 @@ spec:
           - hosts:
               - *host
     defaultPodOptions:
-      enableServiceLinks: true
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+        fsGroupChangePolicy: OnRootMismatch
