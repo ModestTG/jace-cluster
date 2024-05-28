@@ -60,7 +60,7 @@ spec:
           paths:
           - path: /
             service:
-              identifier: readarr
+              identifier: app
               port: http
     persistence:
       config:
