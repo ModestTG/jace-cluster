@@ -27,6 +27,15 @@ spec:
       readarr:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          01-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom:
+              - secretRef:
+                  name: &secret readarr-secret
         containers:
           readarr:
             image:
@@ -39,7 +48,7 @@ spec:
               READARR__LOG_LEVEL: info
             envFrom:
             - secretRef:
-                name: readarr-secret
+                name: *secret
         pod:
           securityContext:
             runAsUser: 1000
