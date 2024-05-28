@@ -22,7 +22,7 @@ spec:
           main:
             image:
               repository: tomsquest/docker-radicale
-              tag: 3.1.9.1
+              tag: 3.2.0.0
               pullPolicy: IfNotPresent
     service:
       main:
