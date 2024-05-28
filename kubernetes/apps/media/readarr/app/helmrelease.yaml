@@ -25,8 +25,9 @@ spec:
   values:
     controllers:
       readarr:
+        type: statefulset
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: &secret readarr-secret
         initContainers:
           01-init-db:
             image:
@@ -35,20 +36,39 @@ spec:
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
-                  name: &secret readarr-secret
+                  name: *secret
         containers:
           readarr:
             image:
-              repository: ghcr.io/joryirving/readarr-develop
-              tag: 0.3.26.2526@sha256:dbd8c2ac319f85758e4afeef684a81b4c435dfc57df8ec3ec80cdb615c176e0e
+              repository: ghcr.io/onedr0p/readarr-develop
+              tag: 0.3.27.2538
             env:
               TZ: ${TIMEZONE}
               READARR__INSTANCE_NAME: Readarr
               READARR__PORT: &port 80
               READARR__LOG_LEVEL: info
+              READARR__AUTHENTICATION_METHOD: None
+              READARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__ANALYTICS_ENABLED: "False"
+              COMPlus_EnableDiagnostics: "0"
             envFrom:
             - secretRef:
                 name: *secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
         pod:
           securityContext:
             runAsUser: 1000
