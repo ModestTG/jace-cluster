@@ -45,7 +45,6 @@ spec:
             env:
               TZ: ${TIMEZONE}
               READARR__INSTANCE_NAME: Readarr
-              READARR__PORT: &port 80
               READARR__LOG_LEVEL: info
               READARR__AUTHENTICATION_METHOD: None
               READARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
@@ -60,7 +59,7 @@ spec:
                 spec:
                   httpGet:
                     path: /ping
-                    port: *port
+                    port: &port 8787
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
