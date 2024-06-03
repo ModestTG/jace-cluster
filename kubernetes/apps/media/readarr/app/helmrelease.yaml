@@ -94,9 +94,16 @@ spec:
         existingClaim: readarr-config
       tmp:
         type: emptyDir
-      data:
+      media:
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/PlexPool
         globalMounts:
         - path: /media
+      audiobooks:
+        enabled: true
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/audiobookshelf/audiobooks
+        globalMounts:
+          - path: /audiobooks
