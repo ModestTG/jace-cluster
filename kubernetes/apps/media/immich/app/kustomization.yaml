@@ -9,7 +9,7 @@ resources:
   - ./redis
   # - ./typesense
   - ./server
-  - ./microservices
+  # - ./microservices
   - ./machine-learning
   # - ./web
 labels:
