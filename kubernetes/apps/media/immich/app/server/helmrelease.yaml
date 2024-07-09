@@ -51,12 +51,11 @@ spec:
             envFrom:
               - secretRef:
                   name: immich-secret
-        # bump for reconciliation
         containers:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.107.1
+              tag: v1.107.2
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
