@@ -7,11 +7,8 @@ resources:
   - ./secret.sops.yaml
   - ./configmap.yaml
   - ./redis
-  # - ./typesense
   - ./server
-  # - ./microservices
   - ./machine-learning
-  # - ./web
 labels:
   - pairs:
       app.kubernetes.io/name: immich
