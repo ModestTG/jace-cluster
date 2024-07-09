@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: ghcr.io/mealie-recipes/mealie
-              tag: v1.8.0@sha256:1622cfc765645792a739443369a11b5c0909c8083b6fcfff194dd44e95bdcad4
+              tag: v1.10.2@sha256:54a976880161c3c96de30b63cd0092d1f069aa8b23686669b726558ddf112724
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
