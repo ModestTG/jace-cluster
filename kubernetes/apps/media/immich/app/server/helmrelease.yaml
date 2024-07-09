@@ -51,6 +51,7 @@ spec:
             envFrom:
               - secretRef:
                   name: immich-secret
+        # bump for reconciliation
         containers:
           main:
             image:
