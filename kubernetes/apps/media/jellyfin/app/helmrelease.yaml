@@ -83,6 +83,11 @@ spec:
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/PlexPool
+      backups:
+        enabled: true
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/backups/jellyfin
       transcode:
         enabled: true
         type: emptyDir
