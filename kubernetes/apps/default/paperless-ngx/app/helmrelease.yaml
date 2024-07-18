@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: paperless-ngx
@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.10.2
+              tag: 2.11.0
               pullPolicy: IfNotPresent
             env:
               COMPOSE_PROJECT_NAME: paperless-ngx

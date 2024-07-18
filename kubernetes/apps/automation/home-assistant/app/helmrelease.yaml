@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.1.0/charts/other/app-template/values.schema.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: home-assistant
@@ -53,7 +53,7 @@ spec:
           home-assistant:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.7.1@sha256:d69a6e47d64c5789af0e2327332f6e43cace7799a2d736e9a7f53ebf39e8a042
+              tag: 2024.7.2@sha256:986497d653f2c4edc6943523717180ed282c4655482a7fe701072df368ead96f
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
@@ -70,7 +70,7 @@ spec:
           codeserver:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.90.3
+              tag: 4.91.0
               pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"

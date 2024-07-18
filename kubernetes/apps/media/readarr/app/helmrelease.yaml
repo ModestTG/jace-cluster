@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app readarr
@@ -41,7 +41,7 @@ spec:
           readarr:
             image:
               repository: ghcr.io/onedr0p/readarr-develop
-              tag: 0.3.29.2565
+              tag: 0.3.30.2576
             env:
               TZ: ${TIMEZONE}
               READARR__INSTANCE_NAME: Readarr
