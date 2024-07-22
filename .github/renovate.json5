@@ -69,7 +69,8 @@
         "ghcr.io/paperless-ngx/paperless-ngx",
         "docker.io/caronc/apprise",
         "ghcr.io/esphome/esphome",
-        "ghcr.io/advplyr/audiobookshelf"
+        "ghcr.io/advplyr/audiobookshelf",
+        "kube-prometheus-stack"
         ]
     },
     {
