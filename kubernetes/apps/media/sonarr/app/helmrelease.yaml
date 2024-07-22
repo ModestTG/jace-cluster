@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,7 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          sonarr:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
               tag: 4.0.8.1902@sha256:717e5ad40303f4f8eba15d9476a86a7c7c9fe3003ec6d6b4c5fab37d19f6fff0
@@ -39,13 +40,13 @@ spec:
               - secretRef:
                   name: sonarr-secret
     service:
-      main:
+      sonarr:
+        controller: main
         ports:
           http:
             port: 8989
     ingress:
-      main:
-        enabled: true
+      sonarr:
         className: internal
         annotations:
           hajimari.io/icon: simple-icons:sonarr
@@ -55,17 +56,15 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: sonarr
                   port: http
         tls:
           - hosts:
             - *host
     persistence:
       config:
-        enabled: true
         existingClaim: sonarr-config
       media:
-        enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/PlexPool

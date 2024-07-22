@@ -1,15 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app fasten
+  name: fasten
   namespace: default
 spec:
   interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       interval: 15m
       sourceRef:
         kind: HelmRepository
@@ -19,19 +20,19 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          fasten:
             image:
               repository: ghcr.io/fastenhealth/fasten-onprem
               tag: main-v1.1.2@sha256:67d133a934e22b6611a7bb438f8b9d7dfb56e04748c775003f3279f6fc9ac2f1
               pullPolicy: IfNotPresent
     service:
-      main:
+      fasten:
+        controller: main
         ports:
           http:
             port: 8080
     ingress:
-      main:
-        enabled: true
+      fasten:
         className: internal
         annotations:
           hajimari.io/icon: mdi:medication
@@ -40,19 +41,17 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: fasten
                   port: http
         tls:
           - hosts:
               - *host
     persistence:
       data:
-        enabled: true
         existingClaim: fasten-data
         globalMounts:
           - path: /opt/fasten/db
       cache:
-        enabled: true
         type: emptyDir
         globalMounts:
           - path: /opt/fasten/cache

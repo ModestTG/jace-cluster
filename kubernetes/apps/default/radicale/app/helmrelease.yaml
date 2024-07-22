@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       interval: 15m
       sourceRef:
         kind: HelmRepository
@@ -19,19 +20,19 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          radicale:
             image:
               repository: tomsquest/docker-radicale
               tag: 3.2.2.0
               pullPolicy: IfNotPresent
     service:
-      main:
+      radicale:
+        controller: main
         ports:
           http:
             port: 5232
     ingress:
-      main:
-        enabled: true
+      radicale:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
@@ -42,14 +43,13 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: radicale
                   port: http
         tls:
           - hosts:
               - *host
     persistence:
       config:
-        enabled: true
         type: configMap
         name: radicale-configmap
         globalMounts:
@@ -57,12 +57,10 @@ spec:
             subPath: config.cfg
             readOnly: true
       data:
-        enabled: true
         existingClaim: radicale-data
         globalMounts:
           - path: /data
       auth:
-        enabled: true
         type: secret
         name: radicale-secret
         globalMounts:

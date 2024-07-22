@@ -1,15 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app node-red
+  name: node-red
   namespace: automation
 spec:
   interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,10 +32,11 @@ spec:
     controllers:
       main:
         containers:
-          main:
+          node-red:
             image:
               repository: docker.io/nodered/node-red
               tag: 4.0.2
+              pullPolicy: IfNotPresent
             env:
               TZ: "${TIMEZONE}"
               NODE_RED_ENABLE_SAFE_MODE: "false"
@@ -52,15 +54,16 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
-        supplimentalGroups:
+        supplementalGroups:
           - 1000
     service:
-      main:
+      node-red:
+        controller: main
         ports:
           http:
             port: 1880
     ingress:
-      main:
+      node-red:
         enabled: true
         className: internal
         annotations:
@@ -70,7 +73,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: node-red
                   port: http
         tls:
           - hosts:

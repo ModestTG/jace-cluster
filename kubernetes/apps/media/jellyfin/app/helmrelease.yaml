@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,7 +31,7 @@ spec:
       main:
         type: statefulset
         containers:
-          main:
+          jellyfin:
             image:
               repository: jellyfin/jellyfin
               tag: 10.9.7@sha256:76930362d2c266e8f0b2f51f1c6b039a5207525d0e138a1cdbec870c66c34b0f
@@ -53,14 +54,14 @@ spec:
               startup:
                 enabled: false
     service:
-      main:
+      jellyfin:
+        controller: main
         ports:
           http:
             port: *port
     ingress:
-      main:
-        enabled: true
-        ingressClassName: internal
+      jellyfin:
+        className: internal
         annotations:
           hajimari.io/icon: simple-icons:jellyfin
         hosts:
@@ -69,36 +70,30 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: jellyfin
                   port: http
         tls:
           - hosts:
               - *host
     persistence:
       config:
-        enabled: true
         existingClaim: jellyfin-config-pvc
       media:
-        enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/PlexPool
+        globalMounts:
+          - path: /media
       backups:
-        enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/backups/jellyfin
+        globalMounts:
+          - path: /backups
       transcode:
-        enabled: true
         type: emptyDir
     resources:
       requests:
         gpu.intel.com/i915: 1
       limits:
         gpu.intel.com/i915: 1
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsUser: 1000
-    #     runAsGroup: 1000
-    #     fsGroup: 1000
-    #     fsGroupChangePolicy: "OnRootMismatch"

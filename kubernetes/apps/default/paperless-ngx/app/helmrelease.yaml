@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -30,7 +31,7 @@ spec:
               - secretRef:
                   name: paperless-ngx-secret
         containers:
-          main:
+          paperless-ngx:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.11.0
@@ -88,12 +89,13 @@ spec:
               - "--chromium-disable-javascript=true"
               - "--chromium-allow-list=file:///tmp/.*"
     service:
-      main:
+      paperless-ngx:
+        controller: main
         ports:
           http:
             port: 8000
     ingress:
-      main:
+      paperless-ngx:
         enabled: true
         className: internal
         annotations:
@@ -104,7 +106,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: paperless-ngx
                   port: http
         tls:
           - hosts:
@@ -114,7 +116,7 @@ spec:
         existingClaim: paperless-ngx-data
         advancedMounts:
           main:
-            main:
+            paperless-ngx:
               - path: /paperless/data
       redis:
         existingClaim: paperless-ngx-redis
@@ -123,22 +125,20 @@ spec:
             redis:
               - path: /data
       docs:
-        enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/paperless-ngx/docs
         advancedMounts:
           main:
-            main:
+            paperless-ngx:
               - path: *dirMedia
       media:
-        enabled: true
         type: nfs
         server: ${SECRET_NFS_SERVER}
         path: /mnt/AuxPool/K8S-NFS/paperless-ngx/consume
         advancedMounts:
           main:
-            main:
+            paperless-ngx:
               - path: *dirConsume
     defaultPodOptions:
       securityContext:

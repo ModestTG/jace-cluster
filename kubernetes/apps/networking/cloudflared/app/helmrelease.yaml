@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -32,7 +33,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          cloudflared:
             image:
               repository: docker.io/cloudflare/cloudflared
               tag: 2024.6.1
@@ -75,13 +76,14 @@ spec:
               limits:
                 memory: 256Mi
     service:
-      main:
+      cloudflared:
+        controller: main
         ports:
           http:
             port: *port
     serviceMonitor:
       main:
-        enabled: true
+        serviceName: cloudflared
         endpoints:
           - port: http
             scheme: http
@@ -90,7 +92,6 @@ spec:
             scrapeTimeout: 30s
     persistence:
       config:
-        enabled: true
         type: configMap
         name: cloudflared-configmap
         globalMounts:
@@ -98,7 +99,6 @@ spec:
             subPath: config.yaml
             readOnly: true
       creds:
-        enabled: true
         type: secret
         name: cloudflared-secret
         globalMounts:
