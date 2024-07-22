@@ -22,7 +22,7 @@ spec:
           main:
             image:
               repository: ghcr.io/fastenhealth/fasten-onprem
-              tag: main-v1.1.0@sha256:dad9b52c5a4454689d51ef5c7484d1a58de9f5eaeedc088a557bf0c84238e421
+              tag: main-v1.1.2@sha256:67d133a934e22b6611a7bb438f8b9d7dfb56e04748c775003f3279f6fc9ac2f1
               pullPolicy: IfNotPresent
     service:
       main:
