@@ -81,6 +81,7 @@
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackagePatterns": [
         "reloader",
+        "grafana"
         ]
     },
     {
