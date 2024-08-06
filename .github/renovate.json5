@@ -81,7 +81,8 @@
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackagePatterns": [
         "reloader",
-        "grafana"
+        "grafana",
+        "cert-manager"
         ]
     },
     {
