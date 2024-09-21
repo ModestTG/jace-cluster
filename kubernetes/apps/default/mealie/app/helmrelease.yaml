@@ -67,3 +67,10 @@ spec:
         existingClaim: mealie-config
         globalMounts:
           - path: /app/data
+      backup:
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/AuxPool/K8S-NFS/backups/mealie
+        globalMounts:
+          - path: /app/data/backups
+
