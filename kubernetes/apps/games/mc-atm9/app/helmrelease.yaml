@@ -33,7 +33,7 @@ spec:
           mc-atm9:
             image:
               repository: ghcr.io/itzg/minecraft-server
-              tag: latest@sha256:daf044a81f44520608d6f859f96ee489be6603a24d721be30da5ca8899479c17
+              tag: latest@sha256:0952f8d5a31213342d2e884a434432ac2ff96b17b24c1245395ad48a45b2b2fb
               pullPolicy: IfNotPresent
             probes:
               liveness: &probes
