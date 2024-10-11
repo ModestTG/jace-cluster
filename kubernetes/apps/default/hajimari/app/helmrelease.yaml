@@ -43,6 +43,7 @@ spec:
           - flux-system
           - media
           - monitoring
+          - security
           - storage
       globalBookmarks:
         - group: Github
