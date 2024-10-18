@@ -112,3 +112,6 @@ spec:
     securityContext:
       privileged: true
     routingMode: native
+    # Needed for tailscale operator
+    socketLB:
+      hostNamespaceOverride: true
