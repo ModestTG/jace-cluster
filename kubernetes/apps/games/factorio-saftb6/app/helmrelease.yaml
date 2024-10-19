@@ -43,9 +43,12 @@ spec:
               tag: latest
     service:
       app:
+        controller: factorio
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           tailscale.com/expose: "true"
-        controller: factorio
+          io.cilium/lb-ipam-ips: 10.0.20.206
         ports:
           gametcp:
             port: 27015
