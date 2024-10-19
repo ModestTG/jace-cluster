@@ -65,7 +65,7 @@ spec:
         annotations:
           hajimari.io/icon: simple-icons:jellyfin
         hosts:
-          - host: &host "jellyfin.${SECRET_DOMAIN}"
+          - host: &host1 "jellyfin.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -74,7 +74,23 @@ spec:
                   port: http
         tls:
           - hosts:
-              - *host
+              - *host1
+      tailscale:
+        className: tailscale
+        annotations:
+          hajimari.io/enable: "false"
+          tailscale.com/funnel: "true"
+        hosts:
+          - host: &host2 "jellyfin.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: jellyfin
+                  port: http
+        tls:
+          - hosts:
+              - *host2
     persistence:
       config:
         existingClaim: jellyfin-config-pvc
