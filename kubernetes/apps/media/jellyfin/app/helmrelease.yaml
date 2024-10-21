@@ -81,7 +81,7 @@ spec:
           hajimari.io/enable: "false"
           tailscale.com/funnel: "true"
         hosts:
-          - host: &host2 "jellyfin.${SECRET_DOMAIN}"
+          - host: &host2 "jellyfin.${SECRET_TS_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
