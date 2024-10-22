@@ -23,4 +23,4 @@ spec:
         path: /mnt/AuxPool/K8S-NFS/tmp
     - name: vol2
       persistentVolumeClaim:
-        claimName: mc-atm9-data
+        claimName: factorio-saftb6-data
