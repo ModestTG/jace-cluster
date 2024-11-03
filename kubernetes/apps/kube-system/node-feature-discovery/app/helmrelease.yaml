@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -32,17 +32,27 @@ spec:
     worker:
       config:
         core:
-          labelSources:
-            - "custom"
-            - "pci"
-            - "usb"
+          sources:
+            - cpu
+            - custom
+            - pci
+            - usb
         sources:
           usb:
-            deviceClassWhitelist: ["02", "03", "0e", "ef", "fe", "ff"]
-            deviceLabelFields: ["class", "vendor", "device"]
-          custom:
-            - name: intel-gpu
-              matchOn:
-                - pciId:
-                    class: ["0300"]
-                    vendor: ["8086"]
+            deviceClassWhitelist:
+              - "02"
+              - "03"
+              - "0e"
+              - "ef"
+              - "fe"
+              - "ff"
+            deviceLabelFields:
+            - "class"
+            - "vendor"
+            - "device"
+          # custom:
+          #   - name: intel-gpu
+          #     matchOn:
+          #       - pciId:
+          #           class: ["0300"]
+          #           vendor: ["8086"]
