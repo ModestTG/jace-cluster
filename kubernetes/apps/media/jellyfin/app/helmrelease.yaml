@@ -53,6 +53,11 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+              limits:
+                gpu.intel.com/i915: 1
     service:
       jellyfin:
         controller: main
@@ -108,8 +113,3 @@ spec:
           - path: /backups
       transcode:
         type: emptyDir
-    resources:
-      requests:
-        gpu.intel.com/i915: 1
-      limits:
-        gpu.intel.com/i915: 1
