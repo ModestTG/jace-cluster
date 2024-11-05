@@ -1,0 +1,118 @@
+---
+# yaml-language-server: $schema: https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tdarr
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      server:
+        containers:
+          server:
+            image:
+              repository: haveagitgat/tdarr
+              tag: 2.27.02
+              pullPolicy: IfNotPresent
+            env:
+              TZ: ${TZ}
+              UMASK_SET: 002
+              serverIP: 0.0.0.0
+              serverPort: &serverPort 8266
+              webUIPort: &webPort 8265
+              internalNode: false
+              inContainer: true
+              ffmpegVersion: 6
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+      node:
+        type: daemonset
+        containers:
+          node:
+            image:
+              repository: haveagitgat/tdarr_node
+              tag: 2.27.02
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "${TZ}"
+              serverIP: tdarr.media.svc.cluster.local
+              serverPort: *serverPort
+              ffmpegPath: "/usr/local/bin/ffmpeg"
+              nodeName:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+              limits:
+                gpu.intel.com/i915: 1
+    service:
+      tdarr:
+        controller: server
+        ports:
+          http:
+            port: *webPort
+          server:
+            port: *serverPort
+    ingress:
+      tdarr:
+        enabled: true
+        className: internal
+        annotations:
+          hajimari.io/icon: material-symbols:switch-video-outline
+        hosts:
+          - host: &host tdarr.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: tdarr
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: tdarr-config
+        advancedMounts:
+          server:
+            server:
+              - path: /app/server
+                subPath: server
+      media:
+        type: nfs
+        server: ${SECRET_NFS_SERVER}
+        path: /mnt/PlexPool
+        globalMounts:
+          - path: /media

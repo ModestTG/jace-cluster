@@ -13,3 +13,4 @@ resources:
   # - ./readarr/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./sonarr/ks.yaml
+  - ./tdarr/ks.yaml
