@@ -63,6 +63,11 @@ spec:
                   name: immich-secret
               - configMapRef:
                   name: immich-configmap
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+              limits:
+                gpu.intel.com/i915: 1
     service:
       immich-server:
         controller: main
