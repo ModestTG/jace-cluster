@@ -116,3 +116,8 @@ spec:
         path: /mnt/PlexPool
         globalMounts:
           - path: /media
+      transcode:
+        type: hostPath
+        hostPath: /transcode
+        globalMounts:
+          - path: /transcode
