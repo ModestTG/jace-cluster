@@ -56,7 +56,18 @@ spec:
               limits:
                 memory: 1Gi
       node:
-        type: daemonset
+        replicas: 4
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - jellyfin
+                  topologyKey: "kubernetes.io/hostname"
         containers:
           node:
             image:
@@ -77,6 +88,8 @@ spec:
                 gpu.intel.com/i915: 1
               limits:
                 gpu.intel.com/i915: 1
+            securityContext:
+              allowPrivilegeEscalation: true
     service:
       tdarr:
         controller: server
@@ -118,6 +131,6 @@ spec:
           - path: /media
       transcode:
         type: hostPath
-        hostPath: /transcode
+        hostPath: /tmp
         globalMounts:
           - path: /transcode
