@@ -42,7 +42,7 @@ Before we get started everything below must be taken into consideration, you mus
 
 📍 _If you have 3 or more nodes it is strongly recommended to make 3 of them control nodes for a highly available control plane._
 
-📍 _Ideally you will run the cluster on bare metal machines. If you intend to run your cluster on Proxmox VE, my thoughts and recommendations about that are documented [here](https://onedr0p.github.io/home-ops/notes/proxmox-considerations.html)._
+📍 _Ideally you will run the cluster on bare metal machines. If you intend to run your cluster on Proxmox VE, my thoughts and recommendations about that are documented here._
 
 | Role    | Cores    | Memory        | System Disk               |
 |---------|----------|---------------|---------------------------|
