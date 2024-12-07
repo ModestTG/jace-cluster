@@ -33,7 +33,7 @@ spec:
           audiobookshelf:
             image:
               repository: ghcr.io/advplyr/audiobookshelf
-              tag: 2.17.2
+              tag: 2.17.4
               pullPolicy: IfNotPresent
             env:
               TZ: ${TIMEZONE}
