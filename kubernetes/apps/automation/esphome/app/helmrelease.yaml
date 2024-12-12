@@ -17,6 +17,14 @@ spec:
         name: bjw-s
         namespace: flux-system
   values:
+    defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [{
+            "name": "multus-not",
+            "namespace": "networking",
+            "ips": ["10.0.30.199/24"]
+          }]
     controllers:
       main:
         containers:
