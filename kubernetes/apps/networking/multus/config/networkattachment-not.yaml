@@ -1,0 +1,28 @@
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: multus-not
+  namespace: networking
+spec:
+  config: |-
+    {
+      "cniVersion": "0.3.1",
+      "name": "multus-not",
+      "plugins": [
+        {
+          "type": "macvlan",
+          "master": "eno1",
+          "mode": "bridge",
+          "capabilities": {
+            "ips": true
+          },
+          "ipam": {
+            "type": "static",
+            "routes": [
+              { "dst": "${SECRET_NOT_NETWORK_CIDR}", "gw": "${SECRET_NOT_NETWORK_GATEWAY}" }
+            ]
+          }
+        }
+      ]
+    }
