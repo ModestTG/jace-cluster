@@ -78,7 +78,7 @@ spec:
       data:
         type: nfs
         server: ${SECRET_NFS_SERVER}
-        path: /mnt/AuxPool/K8S-NFS/filebrowser
+        path: /mnt/AuxPool/K8S-NFS
         globalMounts:
           - path: /files
     defaultPodOptions:
