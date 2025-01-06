@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: storage-longhorn-recurring-jobs
+    - name: database-dragonfly-cluster
   path: ./kubernetes/apps/media/immich/app
   prune: true
   sourceRef:

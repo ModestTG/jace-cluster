@@ -6,7 +6,6 @@ namespace: media
 resources:
   - ./secret.sops.yaml
   - ./configmap.yaml
-  - ./redis
   - ./server
   - ./machine-learning
 labels:
