@@ -57,6 +57,17 @@ spec:
             - name: Flux Cluster Template
               url: "https://github.com/onedr0p/flux-cluster-template"
               icon: simple-icons:github
+        - group: Mirrodin
+          bookmarks:
+            - name: Home-assistant
+              url: "https://hass.mrd.ewhomelab.com"
+              icon: mdi:home-assistant
+            - name: Node-Red
+              url: "https://node-red.mrd.ewhomelab.com"
+              icon: simple-icons:nodered
+            - name: Esphome
+              url: "https://esphome.mrd.ewhomelab.com"
+              icon: simple-icons:esphome
     ingress:
       main:
         enabled: true
