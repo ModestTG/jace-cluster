@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - helmrelease.yaml
+  - secret.sops.yaml
+configMapGenerator:
+  - name: searxng-configmap
+    namespace: default
+    files:
+      - settings.yml=./resources/settings.yaml
+      - limiter.toml=./resources/limiter.toml
+generatorOptions:
+  disableNameSuffixHash: true
