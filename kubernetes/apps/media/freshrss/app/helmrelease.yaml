@@ -65,7 +65,7 @@ spec:
             port: 80
     ingress:
       freshrss:
-        className: external
+        className: internal
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
           hajimari.io/icon: mdi:rss
