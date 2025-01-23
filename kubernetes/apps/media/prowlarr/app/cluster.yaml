@@ -29,7 +29,7 @@ spec:
   externalClusters:
     - name: postgres
       connectionParameters:
-        host: postgres-ro.database.svc.cluster.local
+        host: postgres-rw.database.svc.cluster.local
         user: postgres
         dbname: postgres
       password:
