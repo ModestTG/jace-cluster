@@ -14,8 +14,8 @@ spec:
       import:
         type: monolith
         databases:
-          - prowlarr-main
-          - prowlarr-log
+          - prowlarr_main
+          - prowlarr_log
         source:
           externalCluster: postgres
   storage:
