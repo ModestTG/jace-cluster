@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: cnpg-s3-creds
+    namespace: database
+stringData:
+    AWS_KEY_ID: ENC[AES256_GCM,data:q84folZP,iv:nsYSl5yT6KtNIRPu2sacSqLp6rARamSQn/sx/mUK+aM=,tag:Wid7JuIg+9+fe4La/biTAQ==,type:str]
+    AWS_SECRET_KEY: ENC[AES256_GCM,data:ppCMgO0RUo1hqWf+896jGpGdNE556blhQF+3Hx0ohJM=,iv:6wu6dHdV1GJJdMsQygpgFtQ5qUfzjeGJg+lLH0bKZWg=,tag:Ki2tf3oOz7gcAcTywAX5+Q==,type:str]
+    AWS_ENDPOINTS: ENC[AES256_GCM,data:uBSRcCRzzcaNqEDooElgqlui+hg=,iv:AjAXDX7tzZb3LZhhxBvbwY7O1UfX4rgUma23zG13uDw=,tag:ziQQgh7sQnMWvaMqJzhjYg==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1a8fx8pmfgmsu8nxa26daqhf5kp2qu4cy8pcjqqjtednll828hy0quzn5wu
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB6VExqUnZQSStPa29ZZGow
+            OVh2d2h3dHJRVituK010ZHhRaWJiVUM0ajBZCnBtODNqRTZHOFVjeHdCUExZWEc0
+            NVpGMlR2aGlkbWtMVkw0WDhpTkNYMDAKLS0tIEt0TFFWMWFoRGVBbDJCQWczZE1i
+            ckVzbEc0cnplT0FveHhDaEd4T2VDOGsKTMhcYH0V4aiT02slfmwLqsABRBpzj6O4
+            MuKKrte5z3xrvcMXXiaH5hxT0BmpjtcTbbxm92FiKgbdS/NIwZIplw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-01-23T19:27:11Z"
+    mac: ENC[AES256_GCM,data:TITvyhzvb4ruqMpOA8ynHW6me87EvI+Xsx6GjfxJ5PBT4n/v5WVNnmqZGAWNvT/UIG+dwFeJV/MKXHLZ9IdBHagSojZQotkjJ/TG6/TXn3UlXukISTP2iU79Vp09lcqX/dkcdmqfq+dfFEEnGxv8/6GlsZ37cs6tay1AR0sIheo=,iv:JBdDvmHzNDkMDVwvt35cg4XmzvayExyW5dLscfqa30A=,tag:R1al7v0/Bs7sfDKgBwyZUg==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2

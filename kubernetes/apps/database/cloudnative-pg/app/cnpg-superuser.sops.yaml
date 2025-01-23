@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: cnpg-superuser
+    namespace: database
+stringData:
+    username: ENC[AES256_GCM,data:atVKFupr2kg=,iv:c+dn2J5ihZQLtuXEOyuxFCLgXJDs2V4jvIcgq2tznDk=,tag:LAcLHGZYNcQi+qnNsX363g==,type:str]
+    password: ENC[AES256_GCM,data:1B1mxg0cq0irFTtogXKx0ZvCnmBDzEbR2F3O0jsal7ByfQ==,iv:ZlwUyFGPoSjor10+Ptza+TekFh7KOtFGKn2vz+sVQUM=,tag:EAQpll/DINO8QaoJGr9k7g==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1a8fx8pmfgmsu8nxa26daqhf5kp2qu4cy8pcjqqjtednll828hy0quzn5wu
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzUkE4eENjdTJPRlFUUWE2
+            MXRpRjc3NU1ZcVl3c3d4bXpCamNHZXlPN1dnCk9sKzh6d3J3SVJjUE5uNEovamRr
+            TmRWdXg5OW4zTzBOSmtHSlp1b3VRcWsKLS0tIG94OXljZmJXZDQraVJUSlc2d0Za
+            TVd4djBWZEdmemtZQkFYaU9qS0dQT0kKtt9OGDb5YqI+MWCF/dW+QwAkNsZe0tr7
+            p/ArFOugzDGkaMDVYfQjvGscSHu1tRNQjZEZ8CcCi+4MFahCXedprw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-01-23T19:27:30Z"
+    mac: ENC[AES256_GCM,data:fhE5RKC/cCKcXus5b+VyIm481ucjnKMlup2cPHMsDG6Jsahn/Z0s8OT0+8ZJn9id1nn0Y+GJgIHeD4AqT8t0lq69U3i0P0W3/qIMMSfdaCPH/RtkdeJBsIzS4N1cR5SO6mP32GUEp1197VoQ603xtFkI3LMZSzPSBgGio8X5v9o=,iv:0BJ2NqG57Z5Tsnx7fa0npQe5/T7LqLi/SGHNfw096gY=,tag:qKLK9DAqVb0r4YSePsRGpQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2
