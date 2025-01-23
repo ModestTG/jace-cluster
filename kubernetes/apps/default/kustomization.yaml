@@ -5,6 +5,7 @@ resources:
   - ./fasten/ks.yaml
   - ./filebrowser/ks.yaml
   - ./hajimari/ks.yaml
+  - ./it-tools/ks.yaml
   - ./mealie/ks.yaml
   - ./namespace.yaml
   - ./open-webui/ks.yaml
