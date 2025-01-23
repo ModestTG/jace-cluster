@@ -16,6 +16,8 @@ spec:
         databases:
           - prowlarr_main
           - prowlarr_log
+        roles:
+          - prowlarr
         source:
           externalCluster: postgres
   storage:
