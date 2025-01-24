@@ -2,14 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: media
 resources:
-  - ./secret.sops.yaml
-  - ./configmap.yaml
-  - ./server
-  - ./machine-learning
-labels:
-  - pairs:
-      app.kubernetes.io/name: immich
-      app.kubernetes.io/instance: immich
-      app.kubernetes.io/part-of: immich
+  - cluster.yaml
+  - configmap.yaml
+  - machine-learning
+  - secret.sops.yaml
+  - server

@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/cluster_v1.json
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-immich
+  namespace: database
+spec:
+  instances: 3
+  # No imageName means use latest image
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.11-v0.2.0
+  primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-immich #This must match backup.barmanObjectStore.serverName from previous backup
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - immich
+        roles:
+          - postgres
+        source:
+          externalCluster: pgvecto
+  storage:
+    size: 5Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-superuser
+  monitoring:
+    enablePodMonitor: true
+  externalClusters:
+    - name: pgvecto
+      connectionParameters:
+        host: pgvecto-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+      password:
+        name: cnpg-superuser
+        key: password
+  backup:
+    barmanObjectStore:
+      destinationPath: &dest-path s3://pg-immich/
+      endpointURL: &endpoint-url ${AWS_ENDPOINTS}
+      serverName: pg-immich #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      s3Credentials: &s3-creds
+        accessKeyId:
+          name: cnpg-s3-creds
+          key: AWS_KEY_ID
+        secretAccessKey:
+          name: cnpg-s3-creds
+          key: AWS_SECRET_KEY
+    retentionPolicy: "30d"
+  # externalClusters:
+  #   - name: *previous-cluster
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: *dest-path
+  #       endpointURL: *endpoint-url
+  #       s3Credentials: *s3-creds
+
+# ---
+# yaml-language-server $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/scheduledbackup_v1.json
+# apiVersion: postgresql.cnpg.io/v1
+# kind: ScheduledBackup
+# metadata:
+#   name: pg-immich-scheduled-backup
+#   namespace: database
+# spec:
+#   schedule: "@daily"
+#   immediate: true
+#   backupOwnerReference: self
+#   cluster:
+#     name: pg-immich
