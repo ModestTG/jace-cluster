@@ -1,0 +1,75 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-authentik
+  namespace: database
+spec:
+  instances: 3
+  # No imageName means use latest image
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
+  primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-authentik #This must match backup.barmanObjectStore.serverName from previous backup
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - authentik
+        roles:
+          - authentik
+        source:
+          externalCluster: postgres
+  storage:
+    size: 1Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-superuser
+  monitoring:
+    enablePodMonitor: true
+  externalClusters:
+    - name: postgres
+      connectionParameters:
+        host: postgres-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+      password:
+        name: cnpg-superuser
+        key: password
+  backup:
+    barmanObjectStore:
+      destinationPath: &dest-path s3://pg-authentik/
+      endpointURL: &endpoint-url ${AWS_ENDPOINTS}
+      serverName: pg-authentik #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      s3Credentials: &s3-creds
+        accessKeyId:
+          name: cnpg-s3-creds
+          key: AWS_KEY_ID
+        secretAccessKey:
+          name: cnpg-s3-creds
+          key: AWS_SECRET_KEY
+    retentionPolicy: "30d"
+  # externalClusters:
+  #   - name: *previous-cluster
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: *dest-path
+  #       endpointURL: *endpoint-url
+  #       s3Credentials: *s3-creds
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: pg-authentik-scheduled-backup
+  namespace: database
+spec:
+  schedule: "@daily"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: pg-authentik
