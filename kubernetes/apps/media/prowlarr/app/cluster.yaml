@@ -9,6 +9,9 @@ spec:
   # No imageName means use latest image
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
   primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-prowlarr #This must match backup.barmanObjectStore.serverName from previous backup
   bootstrap:
     initdb:
       import:
@@ -70,4 +73,4 @@ spec:
   immediate: true
   backupOwnerReference: self
   cluster:
-    name: postgres
+    name: pg-prowlarr
