@@ -20,7 +20,7 @@ spec:
         databases:
           - immich
         roles:
-          - postgres
+          - immich
         source:
           externalCluster: pgvecto
   storage:
