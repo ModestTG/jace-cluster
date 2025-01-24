@@ -15,13 +15,13 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: cloudnative-pg-secret
-  # bootstrap:
-  #   recovery:
-  #     source: &previous-cluster pgvecto-v4 #This must match backup.barmanObjectStore.serverName from previous backup
   bootstrap:
     recovery:
-      backup:
-        name: pgvecto-scheduled-backup-20241004000000
+      source: &previous-cluster pgvecto-v4 #This must match backup.barmanObjectStore.serverName from previous backup
+  # bootstrap:
+  #   recovery:
+  #     backup:
+  #       name: pgvecto-scheduled-backup-20241004000000
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
@@ -48,8 +48,8 @@ spec:
           key: AWS_SECRET_ACCESS_KEY
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
-    # - name: *previous-cluster
-    - name: pgvecto-v3
+    - name: *previous-cluster
+    # - name: pgvecto-v3
       barmanObjectStore:
         wal:
           compression: bzip2
