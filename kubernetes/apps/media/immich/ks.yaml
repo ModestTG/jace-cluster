@@ -9,6 +9,7 @@ spec:
   dependsOn:
     - name: storage-longhorn-recurring-jobs
     - name: database-dragonfly-cluster
+    - name: database-cloudnative-pg
   path: ./kubernetes/apps/media/immich/app
   prune: true
   sourceRef:

@@ -12,7 +12,7 @@ spec:
     name: home-kubernetes
   dependsOn:
     - name: storage-longhorn-recurring-jobs
-    - name: database-cloudnative-pg-cluster
+    - name: database-cloudnative-pg
   interval: 30m
   retryInterval: 1m
   timeout: 3m

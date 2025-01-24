@@ -10,6 +10,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
+  dependsOn:
+    - name: database-cloudnative-pg
   interval: 30m
   retryInterval: 1m
   timeout: 5m
