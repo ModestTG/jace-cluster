@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-open-webui
+  namespace: database
+spec:
+  instances: 3
+  # No imageName means use latest image
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
+  primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-open-webui #This must match backup.barmanObjectStore.serverName from previous backup
+  bootstrap:
+    initdb:
+      database: open-webui
+      owner: open-webui
+      secret:
+        name: open-webui-secret
+  storage:
+    size: 1Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-superuser
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    barmanObjectStore:
+      destinationPath: &dest-path s3://pg-open-webui/
+      endpointURL: &endpoint-url ${AWS_ENDPOINTS}
+      serverName: pg-open-webui
+      s3Credentials: &s3-creds
+        accessKeyId:
+          name: cnpg-s3-creds
+          key: AWS_KEY_ID
+        secretAccessKey:
+          name: cnpg-s3-creds
+          key: AWS_SECRET_KEY
+    retentionPolicy: "30d"
+  # externalClusters:
+  #   - name: *previous-cluster
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: *dest-path
+  #       endpointURL: *endpoint-url
+  #       s3Credentials: *s3-creds
+---
+# yaml-language-server $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/scheduledbackup_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: pg-open-webui-scheduled-backup
+  namespace: database
+spec:
+  schedule: "@daily"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: pg-open-webui

@@ -10,6 +10,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
+  dependsOn:
+    - name: database-cloudnative-pg
+    - name: storage-longhorn-recurring-jobs
   interval: 30m
   retryInterval: 1m
   timeout: 3m
