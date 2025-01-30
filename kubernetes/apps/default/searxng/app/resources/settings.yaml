@@ -10,6 +10,9 @@ redis:
 
 search:
   autocomplete: duckduckgo
+  formats:
+    - html
+    - json
 
 general:
   instance_name: EWHS Search
