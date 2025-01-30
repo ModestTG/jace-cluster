@@ -2,7 +2,6 @@
 use_default_settings: true
 
 server:
-  limiter: true
   image_proxy: true
   method: GET # https://github.com/searxng/searxng/pull/3619
 
@@ -13,7 +12,7 @@ search:
   autocomplete: duckduckgo
 
 general:
-  instance_name: RostSearch
+  instance_name: EWHS Search
 
 ui:
   static_use_hash: true
