@@ -16,7 +16,7 @@ spec:
       value: "false"
     - name: TZ
       value: America/Chicago
-    image: docker.io/nodered/node-red:4.0.8
+    image: docker.io/nodered/node-red:4.0.9
     imagePullPolicy: IfNotPresent
     name: main
   nodeName: jace-master-2
