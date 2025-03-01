@@ -40,7 +40,7 @@ spec:
               BIND: "0.0.0.0"
             image:
               repository: factoriotools/factorio
-              tag: stable@sha256:ff34b417a1e5253c9005aa7e0b187d3f2b69c6283376c1e9714c0beca199e6e7
+              tag: stable@sha256:691a418dcd4a0915cce9f3abd754a9db81a46fb949fd0c616ccb2f83b5b97720
               pullPolicy: IfNotPresent
     service:
       app:
