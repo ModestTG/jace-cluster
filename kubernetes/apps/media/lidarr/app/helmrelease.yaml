@@ -10,13 +10,12 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.6.1
+      version: 3.7.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
   install:
-    createNamespace: true
     remediation:
       retries: 5
   upgrade:
@@ -24,15 +23,15 @@ spec:
       retries: 5
   values:
     controllers:
-      main:
+      lidarr:
         type: statefulset
         annotations:
           secret.reloader.stakater.com/reload: &secret lidarr-secret
         initContainers:
           01-init-db:
             image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 14.9
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.4.0
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
@@ -40,8 +39,8 @@ spec:
         containers:
           lidarr:
             image:
-              repository: ghcr.io/onedr0p/lidarr-develop
-              tag: 2.5.2.4316@sha256:d8a95af69fe6eb932dc78bf0d415297bfa3de38fd09646c153963946edcb366c
+              repository: ghcr.io/home-operations/lidarr
+              tag: 2.11.1
             env:
               TZ: ${TZ}
               LIDARR__INSTANCE_NAME: Lidarr
@@ -52,7 +51,7 @@ spec:
                   name: *secret
     service:
       lidarr:
-        controller: main
+        controller: lidarr
         ports:
           http:
             port: *port

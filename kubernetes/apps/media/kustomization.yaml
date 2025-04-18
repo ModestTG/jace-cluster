@@ -5,6 +5,7 @@ resources:
   - ./audiobookshelf/ks.yaml
   - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
+  - ./lidarr/ks.yaml
   - ./namespace.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
