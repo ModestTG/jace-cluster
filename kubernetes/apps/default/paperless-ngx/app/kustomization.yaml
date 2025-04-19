@@ -5,4 +5,5 @@ resources:
   - cluster.yaml
   - helmrelease.yaml
   - pvc.yaml
+  - scheduledbackup.yaml
   - secret.sops.yaml

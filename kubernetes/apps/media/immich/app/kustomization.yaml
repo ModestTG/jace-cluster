@@ -6,5 +6,6 @@ resources:
   - cluster.yaml
   - configmap.yaml
   - machine-learning
+  - scheduledbackup.yaml
   - secret.sops.yaml
   - server

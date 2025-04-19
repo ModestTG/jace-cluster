@@ -49,16 +49,3 @@ spec:
   #       destinationPath: *dest-path
   #       endpointURL: *endpoint-url
   #       s3Credentials: *s3-creds
----
-# yaml-language-server $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/scheduledbackup_v1.json
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: pg-open-webui-scheduled-backup
-  namespace: database
-spec:
-  schedule: "@daily"
-  immediate: true
-  backupOwnerReference: self
-  cluster:
-    name: pg-open-webui

@@ -61,15 +61,3 @@ spec:
   #       destinationPath: *dest-path
   #       endpointURL: *endpoint-url
   #       s3Credentials: *s3-creds
----
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: pg-authentik-scheduled-backup
-  namespace: database
-spec:
-  schedule: "@daily"
-  immediate: true
-  backupOwnerReference: self
-  cluster:
-    name: pg-authentik
