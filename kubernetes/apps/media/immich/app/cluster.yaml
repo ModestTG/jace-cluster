@@ -10,13 +10,9 @@ spec:
   # No imageName means use latest image
   imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.11-v0.2.0
   primaryUpdateStrategy: unsupervised
-  # bootstrap:
-  #   recovery:
-  #     source: &previous-cluster pg-immich #This must match backup.barmanObjectStore.serverName from previous backup
   bootstrap:
     recovery:
-      backup:
-        name: pg-immich-scheduled-backup-20250418000000
+      source: &previous-cluster pg-immich #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
@@ -28,15 +24,6 @@ spec:
     name: cnpg-superuser
   monitoring:
     enablePodMonitor: true
-  externalClusters:
-    - name: pgvecto
-      connectionParameters:
-        host: pgvecto-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-      password:
-        name: cnpg-superuser
-        key: password
   backup:
     barmanObjectStore:
       destinationPath: &dest-path s3://pg-immich/
@@ -50,15 +37,15 @@ spec:
           name: cnpg-s3-creds
           key: AWS_SECRET_KEY
     retentionPolicy: "30d"
-  # externalClusters:
-  #   - name: *previous-cluster
-  #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: *dest-path
-  #       endpointURL: *endpoint-url
-  #       s3Credentials: *s3-creds
+  externalClusters:
+    - name: *previous-cluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: *dest-path
+        endpointURL: *endpoint-url
+        s3Credentials: *s3-creds
 
 ---
 # yaml-language-server $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/scheduledbackup_v1.json
