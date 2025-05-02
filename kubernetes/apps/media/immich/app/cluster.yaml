@@ -12,7 +12,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   bootstrap:
     recovery:
-      source: &previous-cluster pg-immich-v2 #This must match backup.barmanObjectStore.serverName from previous backup
+      source: &previous-cluster pg-immich-v3 #This must match backup.barmanObjectStore.serverName from previous backup
   postgresql:
     shared_preload_libraries:
       - "vectors.so"
@@ -28,7 +28,7 @@ spec:
     barmanObjectStore:
       destinationPath: &dest-path s3://pg-immich/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: pg-immich-v3 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: pg-immich-v4 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: cnpg-s3-creds
