@@ -57,7 +57,7 @@ spec:
             subPath: config.cfg
             readOnly: true
       data:
-        existingClaim: radicale-data
+        existingClaim: radicale-data-new
         globalMounts:
           - path: /data
       auth:

@@ -48,7 +48,7 @@ spec:
               - *host
     persistence:
       data:
-        existingClaim: fasten-data
+        existingClaim: fasten-data-new
         globalMounts:
           - path: /opt/fasten/db
       cache:

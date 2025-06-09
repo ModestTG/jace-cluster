@@ -103,13 +103,13 @@ spec:
             - *host
     persistence:
       data:
-        existingClaim: paperless-ngx-data
+        existingClaim: paperless-ngx-data-new
         advancedMounts:
           main:
             paperless-ngx:
               - path: /paperless/data
       redis:
-        existingClaim: paperless-ngx-redis
+        existingClaim: paperless-ngx-redis-new
         advancedMounts:
           main:
             redis:

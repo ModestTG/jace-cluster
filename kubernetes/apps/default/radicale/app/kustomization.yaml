@@ -7,4 +7,5 @@ resources:
   - configmap.yaml
   - secret.sops.yaml
   # - pvc.yaml
+  - pvc2.yaml
   - helmrelease.yaml

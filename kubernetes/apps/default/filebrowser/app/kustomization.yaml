@@ -16,3 +16,4 @@ resources:
   # - pvc.yaml
   - helmrelease.yaml
   - configmap.yaml
+  - pvc2.yaml

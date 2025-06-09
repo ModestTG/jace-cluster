@@ -64,7 +64,7 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: mealie-config
+        existingClaim: mealie-config-new
         globalMounts:
           - path: /app/data
       backup:

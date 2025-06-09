@@ -72,7 +72,7 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: syncthing-config
+        existingClaim: syncthing-config-new
         globalMounts:
           - path: /var/syncthing
       data:

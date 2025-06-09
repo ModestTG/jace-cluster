@@ -65,6 +65,6 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: open-webui-data
+        existingClaim: open-webui-data-new
         globalMounts:
           - path: /app/backend/data

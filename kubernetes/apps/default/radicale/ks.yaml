@@ -5,14 +5,12 @@ metadata:
   name: default-radicale
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: storage-longhorn-recurring-jobs
   path: ./kubernetes/apps/default/radicale/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true 
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 10m

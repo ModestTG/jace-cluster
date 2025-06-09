@@ -80,7 +80,7 @@ spec:
             - *host
     persistence:
       config:
-        existingClaim: vaultwarden-config
+        existingClaim: vaultwarden-config-new
     defaultPodOptions:
       annotations:
         secret.reloader.stakater.com/reload: "vaultwarden"
