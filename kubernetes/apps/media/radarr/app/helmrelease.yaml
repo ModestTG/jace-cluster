@@ -73,7 +73,7 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: radarr-config
+        existingClaim: radarr-config-new
       media:
         type: nfs
         server: ${SECRET_NFS_SERVER}

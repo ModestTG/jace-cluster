@@ -98,7 +98,7 @@ spec:
               - *host2
     persistence:
       config:
-        existingClaim: jellyfin-config-pvc
+        existingClaim: jellyfin-config-pvc-new
       media:
         type: nfs
         server: ${SECRET_NFS_SERVER}

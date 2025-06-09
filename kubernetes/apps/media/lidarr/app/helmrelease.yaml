@@ -72,7 +72,7 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: lidarr-config
+        existingClaim: lidarr-config-new
       media:
         type: nfs
         server: ${SECRET_NFS_SERVER}

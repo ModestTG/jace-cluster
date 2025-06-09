@@ -63,7 +63,7 @@ spec:
             - *host
     persistence:
       config:
-        existingClaim: sonarr-config
+        existingClaim: sonarr-config-new
       media:
         type: nfs
         server: ${SECRET_NFS_SERVER}

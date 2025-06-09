@@ -78,7 +78,7 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: prowlarr-config
+        existingClaim: prowlarr-config-new
     defaultPodOptions:
       securityContext:
         runAsUser: 568

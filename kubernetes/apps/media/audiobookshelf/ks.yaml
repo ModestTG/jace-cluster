@@ -6,8 +6,6 @@ metadata:
   name: media-audiobookshelf
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: storage-longhorn-recurring-jobs
   path: ./kubernetes/apps/media/audiobookshelf/app
   prune: true
   sourceRef:

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr-config-new
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: radarr-config
+  storageClassName: longhorn
