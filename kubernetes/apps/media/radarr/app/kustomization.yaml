@@ -7,4 +7,3 @@ resources:
   - ./scheduledbackup.yaml
   - ./secret.sops.yaml
   - ./pvc.yaml
-  - ./pvc2.yaml

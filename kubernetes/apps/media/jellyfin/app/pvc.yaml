@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-config-pvc
+  name: jellyfin-config-pvc-new
   namespace: media
 spec:
   accessModes:
@@ -11,4 +11,4 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: longhorn-apps
+  storageClassName: longhorn
