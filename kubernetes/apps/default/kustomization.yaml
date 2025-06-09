@@ -6,7 +6,6 @@ resources:
   - ./filebrowser/ks.yaml
   - ./hajimari/ks.yaml
   - ./it-tools/ks.yaml
-  - ./linkwarden/ks.yaml
   - ./mealie/ks.yaml
   - ./namespace.yaml
   # - ./open-webui/ks.yaml
