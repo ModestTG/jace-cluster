@@ -6,8 +6,6 @@ metadata:
   name: automation-emqx
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: storage-longhorn-recurring-jobs
   path: ./kubernetes/apps/automation/emqx/app
   prune: true
   sourceRef:
