@@ -6,6 +6,5 @@ metadata:
 resources:
   - configmap.yaml
   - secret.sops.yaml
-  # - pvc.yaml
-  - pvc2.yaml
+  - pvc.yaml
   - helmrelease.yaml

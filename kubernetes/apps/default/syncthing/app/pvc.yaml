@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: syncthing-config
+  name: syncthing-config-new
   namespace: default
   labels:
 spec:
@@ -11,4 +11,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: longhorn-apps
+  storageClassName: longhorn

@@ -7,4 +7,3 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
   - ./pvc.yaml
-  - ./pvc2.yaml
