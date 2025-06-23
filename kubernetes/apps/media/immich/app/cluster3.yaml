@@ -8,7 +8,7 @@ metadata:
 spec:
   instances: 1
   # No imageName means use latest image
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.3.0
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:14-0.3.0
   primaryUpdateStrategy: unsupervised
   bootstrap:
     initdb:
