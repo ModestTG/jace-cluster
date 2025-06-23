@@ -20,6 +20,8 @@ spec:
           - immich
         source:
           externalCluster: pg-immich-replica
+        pgRestoreExtraOptions:
+          - '-n public'
   postgresql:
     shared_preload_libraries:
       - "vchord.so"
