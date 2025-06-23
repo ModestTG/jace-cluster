@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - cluster.yaml
   - cluster2.yaml
-  - cluster3.yaml
+  # - cluster3.yaml
   - configmap.yaml
   - machine-learning
   - scheduledbackup.yaml
