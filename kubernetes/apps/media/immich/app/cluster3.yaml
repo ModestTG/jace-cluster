@@ -10,6 +10,9 @@ spec:
   # No imageName means use latest image
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:14-0.3.0
   primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-immich-vchord #This must match backup.barmanObjectStore.serverName from previous backup
   bootstrap:
     initdb:
       import:
@@ -54,3 +57,12 @@ spec:
       password:
         name: cnpg-superuser
         key: password
+    # - name: *previous-cluster
+    #   barmanObjectStore:
+    #     wal:
+    #       compression: bzip2
+    #       maxParallel: 8
+    #     destinationPath: *dest-path
+    #     endpointURL: *endpoint-url
+    #     s3Credentials: *s3-creds
+    #
