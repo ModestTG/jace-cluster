@@ -20,10 +20,9 @@ spec:
           - immich
         source:
           externalCluster: pg-immich-replica
-        # pgRestoreExtraOptions:
-        #   - '-n public'
   postgresql:
     shared_preload_libraries:
+      - "vectors.so"
       - "vchord.so"
   storage:
     size: 5Gi
