@@ -6,7 +6,7 @@ metadata:
   name: pg-immich-vchord
   namespace: database
 spec:
-  instances: 1
+  instances: 3
   # No imageName means use latest image
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:14-0.3.0
   primaryUpdateStrategy: unsupervised
@@ -31,6 +31,19 @@ spec:
     name: cnpg-superuser
   monitoring:
     enablePodMonitor: true
+  backup:
+    barmanObjectStore:
+      destinationPath: &dest-path s3://pg-immich/
+      endpointURL: &endpoint-url ${AWS_ENDPOINTS}
+      serverName: pg-immich-vchord #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      s3Credentials: &s3-creds
+        accessKeyId:
+          name: cnpg-s3-creds
+          key: AWS_KEY_ID
+        secretAccessKey:
+          name: cnpg-s3-creds
+          key: AWS_SECRET_KEY
+    retentionPolicy: "30d"
   externalClusters:
     - name: pg-immich-replica
       connectionParameters:
