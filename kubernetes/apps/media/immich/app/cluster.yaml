@@ -3,19 +3,29 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: pg-immich
+  name: pg-immich-vchord
   namespace: database
 spec:
   instances: 3
   # No imageName means use latest image
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.14-v0.3.0
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:14-0.3.0
   primaryUpdateStrategy: unsupervised
+  # bootstrap:
+  #   recovery:
+  #     source: &previous-cluster pg-immich-vchord #This must match backup.barmanObjectStore.serverName from previous backup
   bootstrap:
-    recovery:
-      source: &previous-cluster pg-immich-v4 #This must match backup.barmanObjectStore.serverName from previous backup
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - immich
+        roles:
+          - immich
+        source:
+          externalCluster: pg-immich-replica
   postgresql:
     shared_preload_libraries:
-      - "vectors.so"
+      - "vchord.so"
   storage:
     size: 5Gi
     storageClass: local-path
@@ -28,7 +38,7 @@ spec:
     barmanObjectStore:
       destinationPath: &dest-path s3://pg-immich/
       endpointURL: &endpoint-url ${AWS_ENDPOINTS}
-      serverName: pg-immich-v5 #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
+      serverName: pg-immich-vchord #This must increment when bootstrapping. You cannot have this be the same as the bootstrap version
       s3Credentials: &s3-creds
         accessKeyId:
           name: cnpg-s3-creds
@@ -38,12 +48,21 @@ spec:
           key: AWS_SECRET_KEY
     retentionPolicy: "30d"
   externalClusters:
-    - name: *previous-cluster
-      barmanObjectStore:
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: *dest-path
-        endpointURL: *endpoint-url
-        s3Credentials: *s3-creds
-
+    - name: pg-immich-replica
+      connectionParameters:
+        host: pg-immich-replica-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cnpg-superuser
+        key: password
+    # - name: *previous-cluster
+    #   barmanObjectStore:
+    #     wal:
+    #       compression: bzip2
+    #       maxParallel: 8
+    #     destinationPath: *dest-path
+    #     endpointURL: *endpoint-url
+    #     s3Credentials: *s3-creds
+    #

@@ -3,11 +3,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: pg-immich-scheduled-backup
+  name: pg-immich-vchord-scheduled-backup
   namespace: database
 spec:
   schedule: "@daily"
   immediate: true
   backupOwnerReference: self
   cluster:
-    name: pg-immich
+    name: pg-immich-vchord
