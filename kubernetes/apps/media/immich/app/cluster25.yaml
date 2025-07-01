@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgresql.cnpg.io/cluster_v1.json
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-immich-replica-noex
+  namespace: database
+spec:
+  instances: 1
+  # No imageName means use latest image
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.14-v0.3.0
+  primaryUpdateStrategy: unsupervised
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - immich
+        roles:
+          - immich
+        source:
+          externalCluster: pg-immich-replica
+  # postgresql:
+  #   shared_preload_libraries:
+  #     - "vectors.so"
+  storage:
+    size: 5Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-superuser
+  monitoring:
+    enablePodMonitor: true
+  externalClusters:
+    - name: pg-immich-replica
+      connectionParameters:
+        host: pg-immich-replica-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cnpg-superuser
+        key: password
