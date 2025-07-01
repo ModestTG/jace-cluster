@@ -22,7 +22,6 @@ spec:
           externalCluster: pg-immich-replica
   postgresql:
     shared_preload_libraries:
-      - "vectors.so"
       - "vchord.so"
   storage:
     size: 5Gi
