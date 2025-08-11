@@ -84,7 +84,7 @@
         "cert-manager",
         "grafana",
         "metrics-server",
-        "reflector"
+        "reflector",
         "reloader"
         ]
     },
