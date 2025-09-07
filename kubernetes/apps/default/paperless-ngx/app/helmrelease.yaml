@@ -34,7 +34,7 @@ spec:
           paperless-ngx:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.18.2
+              tag: 2.18.3
               pullPolicy: IfNotPresent
             env:
               COMPOSE_PROJECT_NAME: paperless-ngx
