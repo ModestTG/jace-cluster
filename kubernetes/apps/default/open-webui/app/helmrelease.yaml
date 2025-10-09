@@ -41,7 +41,7 @@ spec:
           open-webui:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.6.31
+              tag: 0.6.33
             envFrom: *envFrom
     service:
       app:
