@@ -47,7 +47,7 @@ spec:
           fivefilters-full-text-rss:
             image:
               repository: heussd/fivefilters-full-text-rss
-              tag: latest@sha256:403b5754249a7b3d2e94e3b4ccb9fd0c43a345de40b2ce856db2bb99f8224d38
+              tag: latest@sha256:11bb0f136196e39a424bb1087530677631bd052edffeb661c355c023b5f72c83
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
