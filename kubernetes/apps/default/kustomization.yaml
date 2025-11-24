@@ -10,6 +10,5 @@ resources:
   - ./namespace.yaml
   - ./paperless-ngx/ks.yaml
   - ./searxng/ks.yaml
-  - ./stirling-pdf/ks.yaml
   - ./syncthing/ks.yaml
   - ./vaultwarden/ks.yaml
