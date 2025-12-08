@@ -88,3 +88,4 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
           - 1000
+          - 1100
