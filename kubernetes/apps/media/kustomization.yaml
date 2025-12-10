@@ -6,5 +6,3 @@ resources:
   - ./immich/ks.yaml
   - ./jellyfin/ks.yaml
   - ./namespace.yaml
-  - ./sabnzbd/ks.yaml
-  - ./sonarr/ks.yaml
