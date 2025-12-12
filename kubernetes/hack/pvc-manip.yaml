@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pvc-manipulation-pod
-  namespace: games # set this to the NS that the PVC exists in
+  namespace: media # set this to the NS that the PVC exists in
 spec:
   containers:
     - name: main
@@ -23,4 +23,4 @@ spec:
         path: /mnt/AuxPool/K8S-NFS/tmp
     - name: vol2
       persistentVolumeClaim:
-        claimName: factorio-saftb6-data
+        claimName: jellyfin-config-pvc-new
