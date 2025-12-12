@@ -7,6 +7,5 @@ resources:
   - ./hajimari/ks.yaml
   - ./namespace.yaml
   - ./paperless-ngx/ks.yaml
-  - ./searxng/ks.yaml
   - ./syncthing/ks.yaml
   - ./vaultwarden/ks.yaml
