@@ -6,6 +6,5 @@ resources:
   - ./filebrowser/ks.yaml
   - ./hajimari/ks.yaml
   - ./namespace.yaml
-  - ./paperless-ngx/ks.yaml
   - ./syncthing/ks.yaml
   - ./vaultwarden/ks.yaml
