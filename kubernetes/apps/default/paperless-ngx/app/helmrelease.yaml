@@ -45,7 +45,7 @@ spec:
               PAPERLESS_CONSUMPTION_DIR: &dirConsume /paperless/consume
               PAPERLESS_DATA_DIR: /paperless/data
               PAPERLESS_MEDIA_ROOT: &dirMedia /paperless/media
-              PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
+              # PAPERLESS_FILENAME_FORMAT: "{{ created_year }}/{{ correspondent }}/{{ title }}"
               PAPERLESS_FILENAME_FORMAT_REMOVE_NONE: true
               PAPERLESS_CONSUMER_POLLING: 60
               PAPERLESS_CONSUMER_DELETE_DUPLICATES: true
