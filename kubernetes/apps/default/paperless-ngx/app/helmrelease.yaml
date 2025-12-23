@@ -38,7 +38,7 @@ spec:
               pullPolicy: IfNotPresent
             env:
               COMPOSE_PROJECT_NAME: paperless-ngx
-              PAPERLESS_TIME_ZONE: US/Central
+              PAPERLESS_TIME_ZONE: America/Chicago
               PAPERLESS_URL: https://docs.${SECRET_DOMAIN}
               USERMAP_UID: 1000
               USERMAP_GID: 1000
